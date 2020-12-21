@@ -7,7 +7,7 @@ The home to my files and projects developed for various courses during my time a
   * Room: Zoom Meeting
   * Meeting Time: M/W 4:00-5:15 
   
-* EE 500: [Colloquium](https://github.com/jzaunegger/PSU-Courses/tree/master/Spring-2021/EE-550)
+* EE 500: [Colloquium](https://github.com/jzaunegger/PSU-Courses/tree/master/Spring-2021/EE-500)
   * Professor: M. Zhu
   * Room: Zoom Meeting
   * Meeting Time: F 1:25-3:20
