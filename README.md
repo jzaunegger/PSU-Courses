@@ -12,7 +12,7 @@ The home to my files and projects developed for various courses during my time a
   * Room: Zoom Meeting
   * Meeting Time: F 1:25-3:20
   
-* EE 552:[Pattern Recognition & Machine Learning](https://github.com/jzaunegger/PSU-Courses/tree/master/Spring-2021/EE-552)
+* EE 552: [Pattern Recognition & Machine Learning](https://github.com/jzaunegger/PSU-Courses/tree/master/Spring-2021/EE-552)
   * Professor: Y. Liu
   * Room: Zoom Meeting
   * Meeting Time: Tr/Th 3:05-4:20
