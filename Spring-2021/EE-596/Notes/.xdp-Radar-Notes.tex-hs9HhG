@@ -1,0 +1,95 @@
+\documentclass[12pt]{article}
+\title{Basic Radar Analysis Notes}
+\author{Jackson Zaunegger}
+\date{}
+\begin{document}
+	\maketitle	
+	
+	This is the home to all of my notes related to basic radar analysis. This is intended to gain familiarity with Radar technology for the purposes of an independent study class at Penn State University. These notes correspond with the book "Basic Radar Analysis" by Marvin C. Budge Jr. and Shawn R. German, which is cited in the bibliography below.
+	
+	\section*{Chapter 1}
+	Radar is an acronym for Radio Detection and Ranging. Radar has been around since 1904, when Christian Hulsmeyer bounced waves off a a ship. Later during the 1920s, interest in this technology started to increase, and really started taking off during WWII, resulting in the widespread adoption we see today. \\
+
+	Radar can use two types of signals:
+	
+	\begin{itemize}
+  		\item Pulsed signals - transmit a sequence of radio frequency (RF) energy. An antenna connects to the transmitter as it sends signals out that connect to the receiver after a transmission phase. Transmit/receive (T/R) switches handle this switching functions. These are the most common types of signals. 
+  		\item Continuous Waves (CW) - transmits a continuous signal, typically using two antennas. One for receiving and one for transmission.
+		\end{itemize}
+ 
+	Types of Radar
+	\begin{itemize}
+		\item Mono-Static: The transmitter and the receiver and placed together, making them compact. Which makes them the most common type.
+		\item Bi-Static: The transmitter and the receiver are physically separated, often over long distances. These have more specific applications such as in aircraft or missiles. 
+	\end{itemize}
+
+	While the overall goal of radar is to detect targets and their location, they can also determine the distance between the two as well as the angle. This results in a location and velocity values, and sometimes higher derivatives of the location. 
+
+	Radar operates in the radio band of the electromagnetic spectrum between 5 MHz and 300 GHz. Often times search radar will operate in C band, tracking radar in S-, KU-, K-, and KA bands, and instrumentation and short-range radar in Ka or above. The table below shows the bands as identified by IEEE. 
+
+	\begin{center}
+		\begin{tabular}{ |c|c| } 
+			\hline
+			Band Name & Frequency Range\\
+ 			\hline
+ 			HF & 3-30 Mhz \\
+ 			VHF & 30-300 Mhz \\
+ 			UHF & 300-1000 Mhz \\
+ 			L & 1-2 Ghz \\
+ 			S & 2-4 Ghz \\
+ 			C & 4-8 Ghz \\
+ 			X & 8-12 Ghz \\
+ 			KU & 12-18 Ghz \\
+ 			K & 18-27 Ghz \\
+ 			KA & 27-40 Ghz \\
+ 			V & 40-75 Ghz \\
+ 			W & 75-110 Ghz \\
+ 			MM & 110-300 Ghz \\
+ 			\hline
+		\end{tabular}
+	\end{center}
+	
+	The most common way to measure range with radar is to measure the difference in time from transmission to reception of a pulse. Radio Frequencies (RF) travels at the speed of light. In the formulas listed below R is the range of the target, and c is the speed of light. To calculate the time to reach the target:
+
+	\begin{equation}
+		T_{out} = R / c
+	\end{equation}
+	
+	The formula to calculate the time for a pulse to return from the target. 
+	
+	\begin{equation}
+		T_{back} = R/ c
+	\end{equation}
+	
+	The formula to calculate the time for the round trip for the radar pulse.
+	
+	\begin{equation}
+		T_{R} = T_{out} + T_{back} = 2 R/c
+	\end{equation}
+	
+	We can use this formula to determine the range, R, using the formula:
+	
+	\begin{equation}
+		R = \frac{C T_R}{2}
+	\end{equation}
+	
+	Slant Range is the measurement along a line between the radar and the target. This also applies from a radar using vertical projection to an object on the ground, this is known as ground range. It is also important to note that a common methodology of measuring range, is in terms of microseconds. Examine the example below:\
+	
+	\begin{equation}	
+		R = \frac{c}{2}T_R	= \frac{3*10^8 m/s}{2} (T \mu s * 10^-6 s/\mu s) = 150_t s
+	\end{equation}\
+	
+	Since pulsed radar issues a series of pulses that are all sent and received at different times, determining which signals correspond to one another is a difficult task. Often times the timer is reset every time a pulse is issued, which created ambiguity when measuring the range of radar. If the spacing of time between pulses is $T_{PRI}$, we can calculate unambiguous range using the following formula:
+	
+	\begin{equation}
+		R_{amb} = \frac{C T_{PRI}}{2}	
+	\end{equation}\
+	
+	If the target range is less than $R_{amb}$ then the radar can measure range unambiguously, and if that range is greater than $R_{amb}$ the radar can not measure this range unambiguously. PRI stands for pulse repetition interval. A way to avoid ambiguity is to choose a PRI  to exceed the range delay, of the longest reaching target, or transmit power further to minimize the possibility for long range detection of the radar. 
+	
+	
+
+
+	\section*{Chapter 2}
+
+\end{document}
