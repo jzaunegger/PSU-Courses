@@ -1,6 +1,10 @@
 # PSU-Courses
 The home to my files and projects developed for various courses during my time and Penn State University. These courses are broken up by semester and by individual class. Each class contains the notes I have taken during class, as well as any papers, projects, or homework assignments.
 
+For lab training and safety hazards, visit ehs.psu.edu 
+
+
+
 ## Spring 2021
 * CSE 597: [Special Topic (Natural Language Processing)](https://github.com/jzaunegger/PSU-Courses/tree/master/Spring-2021/CSE-597)
   * Professor: R. Passonneau
@@ -21,3 +25,5 @@ The home to my files and projects developed for various courses during my time a
   * Professor: R. Narayanan
   * Room: By Appointment
   * Meeting Time: TBD
+
+

@@ -1,0 +1,338 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+\setlength{\parindent}{4em}
+\setlength{\parskip}{1em}
+
+\begin{document}
+
+\title{Chapter 1 to 3 Summary}
+\author{Jackson Zaunegger}
+\date{}
+\maketitle
+
+% Table of Content
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+This summary is based off of the book \cite{BRA}, and uses supplementary data from other sources as more background knowledge is needed. Something to note is that I will not be including all of the formulas listed in the book to keep this summary from becoming too long. I will only include essential formulas, and negate intermedite equations. 
+\tableofcontents
+
+% Chapter 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{Chapter 1 Summary}
+
+The first chapter begins by offering a introduction to the history of radar and its origins. The chapter then begins by making distinctions between how radar can use two types of signals, a sequence of pulses known as radio frequency (RF) energy or continuous waves (CW). CW radar generally requires two antenna, one for transmitting and one for receiving signals, where pulse radar only requires one. This difference is due to the fact that pulse radar uses time multiplexing to transmit a signal, then switch to the receiver to process the response. A internal switch allows the process to happen continuously, and because of the need for only one antenna, it use of pulsed radar has become more popular. 
+
+The authors then explain the difference between monostatic and bistatic radar, the two basic radar types. A monostatic radar is the more common as they are more compact, whereas a bistatic radar requires the separation of the transmitter and receiver, often covering large distances. The decision of choosing one method over the other, seems to vary depending on what application the user is trying to use. The overall goal of a radar is to determine the location of an object by measuring the distance that the object is from the radar itself. Modern radar can actually determine the distance of the object, as well as the rate of this rand and the angle of the range. This allows users to calculate the coordinates of the target as well as the velocity of the target. 
+
+The authors then discuss that radar operates in the RF band of the EM spectrum varying between 5 MHz and 300 GHz. However, the frequency being used in the radar will largely depend on the use case. They then offer a variety of considerations to make, such as lower frequencies requiring larger antenna and generally being less accurate. Search radar are often using lower frequencies, but lack fine measurement and tracking radar user higher frequencies with lower power. Keeping those ideas in mind it is more common to use different radar for tracking and searching. Other radars can complete both, but require trade offs in operating frequency. 
+
+When measuring the range, the time delay can be used to derive the range. The range can be calculated by multiplying the time it takes for a signal to be sent and received by the speed of light and the dividing that product by 2. Using that range, we have determined the slant range, or the range defined as a direct line from the radar to the target. An important distinction to make here is that time is generally measured in microseconds. However, this technique brings in ambiguity, because using a pulsed radar we often do not get a response before we send out a second signal. We and determine the unambiguous range by multiplying the speed of light by the pulse repetition interval (PRI) and dividing that product by 2. If the targets range is less than this ambiguous range, the measured range is unambiguous, if it is larger than the measured range is ambiguous. To avoid this problem altogether, a PRI is set to be larger than the range delay or the largest target range of interest, and a transmission power is selected to minimize the possibility of long-range detection. A interesting thing to note here is that this is generally a problem for searching radar but not tracking radar. This occurs because a tracking radar use algorithms to determine the target range, regardless of the return signal. 
+
+Another method to combat the problem of ambiguity is to vary the PRI of the transmission and receiving signal,  and the system can use this change to indicate ambiguous results. These range delays can measured and used in a range resolve algorithm to compute the actual range. This approach is common with Doppler radar, because they often result in ambiguous results. A third approach is to change the frequency in which the radar is operating, as you cannot receive a signal from a frequency that is no longer in the operational range. This results in the radar alternating between frequencies to determine range.
+
+The authors then begin to discuss the idea of usable range, and provide a formula to determine the minimum usable range. That minimum range is the product of the speed of light and the radar pulse width divided by two. This makes sense, as you could only detect the range of a target after the full pulse has been sent, as the receiving aspect of the system would still be off. This also applies to receiving a pulse too close to the transmission of another pulse. Which means we can determine the maximum range by first determining the difference of time between the pulse interval and the pulse width and multiplying by the speed of light, and dividing that product by two. While in theory we can determine the range of a target between these two bounds, most radar operates in a shallower range, referred to as the instrumented range which is dependent on system requirements. 
+
+The authors then introduce the idea of range rate, which is the rate at which a targets rate changes over time. This is done by measuring the frequency difference between the transmitted and received signal, also known as Doppler frequency. We can determine the new range by dividing the change in range by the change in time. If we are given a vector of values that hold data about the current position and new position (x, y, z), we can calculate the target range by taking the square root of x squared plus y squared plus z squared. Using this target range we can determine the new target range by using the following formula:
+
+\begin{equation}
+    X = [x y z \dot{x} \dot{y} \dot{z}]
+\end{equation}
+
+\begin{equation}
+    R = \sqrt{x^2 + y^2 + z^2}
+\end{equation}
+
+\begin{equation}
+    \dot{R} = \frac{dR}{dT} = \frac{x\dot{x}+y\dot{y}+z\dot{z}}{R}
+\end{equation}
+
+Relating back to measuring range rate with radar, we know a transmission pulse is a section of a sinusoid, whose frequency is equal to the operating frequency, also known as the carrier frequency $f_c$ of the radar. We can show the transmission pulse as
+
+\begin{equation}
+    v_r (t) = rect \left[ \frac{t - \tau_R - \tau_p / 2}{\tau_p} \right] cos \left[  2 \pi (f_c + f_d)t + \theta_R \right]
+\end{equation}
+
+An attenuated version of the transmission signal is
+
+\begin{equation}
+    V_R(t) = Av_T(t- \tau_R)
+\end{equation}
+
+where t represents time, $\tau_R$ represents transmission delay, $\tau_p$ represents the pulsewidth, $f_c$ is the carrier frequency, $f_d$, and represents the doppler frequency.
+
+The authors then discuss decibels, and how they relate to radar. A decibel is a value 10 times the logarithm to base 10 of that value. A decibel is denoted as dB, and is useful due to the largve range of numbers that occur when discussing radar. An example used with the signal to noise ratio is shown as
+
+\begin{equation}
+    SNR|_dB = 10log \left( \frac{P_S}{P_N} \right)
+\end{equation}
+
+Where $P_S$ represents the signal power, and $P_N$ represents in noise power in the same unit as signal power. They then go on to explain other notations for decibels and how they relate to speific units of power. They then go on to show a table of common decibel values and how they relate to power ratios.
+
+In previous discussion, math forumals use real signal notation where the inclusion of sin and cosine are left in the formula. To avoid using trigometric functions, complex signal notation is often used. This is when complex functions use complex exponents in the arguements. The reason for using the complex notation is for easier manipulation of math forumlas, speifically because multiplying exponents is easier than multiplying sin or cosine. It also allows for the seperation of various signal properties by seperating them into complex terms. This notation can be further expanded by dropping the carrier frequency to zero, as that is common notation when dealing with alternating current. Instead use the voltages and currents, the amplitudes and phases are used. This is known as baseband signal notation. The term baseband essentially means having a carrier frequency of zero. 
+
+\section{Chapter 2 Summary}
+
+This chapter is all about the radar range equation, which was created during WWII, and is often misunderstood due to the terminology involved. A basic form of this equation is 
+
+\begin{equation}
+    SNR = \frac{E_s}{E_n} =  \frac{P_T G_T G_R \lambda^2 \sigma \tau_p }{(4\pi)^3 R^4 k T_s L}
+\end{equation}
+
+Where SNR denotes the signal to noise ratio in units of joules per joule or watt-seconds per second. $E_S$ denotes the signal energy in joules or watt-seconds. $E_N$ denotes the noise energy in joules, at the same time $E_S$  is output. $P_T$ denotes the peak transmit power, or the average power in watts during signal transmission (transmitter). $G_T$ denotes the directive gain of the transmission antenna in units of watt per watt. $G_R$ denotes the directive gain of the recieving antenna in units of watt per watt. $\lambda$ dentoes the radar wavelength in units of meters. $\pi$ denotes the radar cross section in square meters. $\tau_p$ is the transmission pulsewidth in seconds. $R$ denotes the slant range from the radar to the target in meters. $k$ denotes Boltzmann's constant which is equal to $1.3806503x10^-23$. $T_s$ denotes the system noise temperature. $T_0$ denotes the reference temperature in Kelvin, which is generally 290k. $F_n$ denotes the noise figure in units of watt per watt. Finally, we have $L$ denotes all the losses that relate to the signal, and has the units of watts per watt. 
+
+This equation is applicable to single pulse radar, as it is based on a single transmission pulse. It is also good to note that the formula listed here, is using an energy ratio compared to a power ratio. 
+
+To begin understanding the equation above, we start by considering a transmitter sending a pulse through the waveguide and out the antenna. The peak transmission power or $P_T$, is the average transmit power over the duration of the pulse. We can take into account atmospheric loss through variable $L$. We must also consider that the waveguide also adds loss. (There are other components between the tranmitter and antenna, but for simplicity we will refer to it as the waveguide.) This loss we can consider the transmit loss or $L_t$. Keeping this loss in mind, we can determine that the power at the input of the antenna (antenna power feed) is equal to the transmission power divided by the transmission loss. If we combine all of the loss together $L_{ant}$, we can determine that the pulse power at the antenna $P_{rad}$ is equal to the power feed divided by the total loss. Finally, we can caluclate the actual energy radiated by the antenna to be the pulse power times the pulse width. 
+
+As the author states, the purpose of an antenna is to focus the energy through a concentrated area, however this beam is lossy. The energy density actually emitted depends on many different factors such as approximate area we are trying to estimate $A_{beam}$ and the major and minor axis of the ellipse $\theta_A$ and $\theta_B$. We also have to consider the scale factor $K_A$ and  the antenna directivity $G_T$. This antenna directivity depends on the antenna loss, and must be modified if the radar is not pointed directly at a target by the antenna pattern. 
+
+Another important concept worth considering is called the effective radiated power, or the energy distribuition if the antenna would focus energy equally around a sphere. Since this cannot happen in the real world, we use a scale factor $K_A$. This also helps account for the fact that the energy is not directly focused in a beam and is lossy. This energy that leaves the focus area is refferred to as antenna sidelobes. Using that scale factor we can calculate the antenna directivity, which is also dependent on the antenna beamwidths. These beamwidths are the distances at which the antenna directivity falls 3 decibels benith the maximum value. Keeping all of these aspects in mind, we can determine the energy density $S_R$ (units W-s/m squared) using the following equation:
+
+\begin{equation}
+    S_R = \frac{G_T P_T \tau_p}{4 \pi R^2 L_t L_{ant}}
+\end{equation}
+
+As the radar sends out electromagnetic waves, they pass a target and capture some of its energy. The target in turn generates a second wave which is sent away from itself. We can calculate this by using the radar cross section which is defined by
+
+\begin{equation}
+    E_{tgt} = \sigma S_R 
+\end{equation}
+
+If we assume that target radiates energy back uniformly, we can represent the energy density at the radar using 
+
+\begin{equation}
+    S_{rec} = \frac{P_T G_T \sigma \tau_p}{(4 \pi)^2 R^4 L_t L_{ant}}
+\end{equation}
+
+This energy coming back from the target, the antenna captures some of it and sends it back into the reciever. We can calculate the energy output from the energy feed using
+
+\begin{equation}
+    E_{ant} = \frac{P_T G_T G_R \lambda^2 \sigma \tau_p}{(4 \pi)^3 R^4 L_t L_{ant}}
+\end{equation}
+
+where $A_e$ denotes the area in which the antenna is effective in measuring EM energy. This is also known as the effect aperture which can be calculated using the following formula
+
+\begin{equation}
+    A_{e} = \rho_{ant} A_{ant}
+\end{equation}
+
+where $A_ant$ is the antennas area projected to a plane, and $\rho_{ant}$ represents the antenna efficiency. If we wanted to find the antenna directivity with respect to gain $G$, where we account for all reciever components up to where we measure SNR
+
+\begin{equation}
+    S_{rec} = \frac{P_T G_T \sigma \tau_p}{(4 \pi)^2 R^4 L_t L_{ant}} G
+\end{equation}
+
+Now that we can calculate signal energy in the radar, it is time to calculate the noise energy. Noise comes from the environment and components of the reciever. The noise comes from the atmosphere (glactic noise), the earth, and from electrical components (thermal noise). We can caluclate the noise from electrical components using
+
+\begin{equation}
+    N_0 = kT_0F
+\end{equation}
+
+where k is Boltzmann's constant, T is the noise temperature, and F is the noise figure from a device. However, this does not represent all noise, which we can calculate the noise for the environment and electronics using the formula
+
+\begin{equation}
+    E_N =   GkT_s= Gk \left[ T_a + (F_n - 1) T_0\right]
+\end{equation}
+
+where $G$ is the gain, $T_s$ is the system noise temperature, $T_a$ is the antenna temperature, and $F_n$ is the overall noise. The antenna temperature provides a measurement to estimate environment noise, which will depend on the angle of the radar beam relative to the horizon. An alternative measurement for system noise temperature is 
+
+\begin{equation}
+    T_s = F_n T_0
+\end{equation}
+
+This formula is used when $F_n$ is larger than 7 decibels. A good thing to note is $F_n$ contains the loss from the recieving path of the radar, so it should not be accounted for in the loss term. Combining the formulas listed above we have our final form for the signal to loss ratio, which is calculated using the formula
+
+\begin{equation}
+    SNR = \frac{E_S}{E_N} = \frac{P_T G_T G_R \lambda^2 \sigma \tau_p}{ (4 \pi)^3 R^4 k T_s L }
+\end{equation}
+
+If we want to calculate the SNR as a power ratio we use the formula 
+
+\begin{equation}
+    SNR = \frac{ (P_T G_T G_R \lambda^2 \sigma) / \left[ (4 \pi)^3 R^4 L \right] }{k T_s B_{eff}} = \frac{P_S}{P_N}
+\end{equation}
+
+where $B_{eff}$ is equal to $1 / \tau_p$. It is good to note that this bandwidth may not actually exist in the radar, so the formula directly above is generally only used with continuous wave radar. So it is often replaced with the doppler filter of the signal processor.
+
+A use of the radar range equation is to determine the detection range, or the maximum range that something that can be detected with the radar. However, this is only possible if the SNR is above a threshold. The SNR will increase as range decreases as they are inversly proportional. If we want to find the radar range we use the formula 
+
+\begin{equation}
+    R = \left[ \frac{P_T G_T G_R \lambda^2 \sigma \tau_p}{(4 \pi)^3 (SNR) k T_s L} \right]^{1/4}
+\end{equation}
+
+The radar range equation can be extended to be used with search radars. Generally the performance measure of charcterizing search radra is the average power-apertature product $P_A A_E$, which is ther average power multiplied by the aperature. If we assume a radar searches an angular region $\Omega$ which is measured in steradians $({rad}^2)$, or a section of a sphere in rlation to an elevation extent ($\epsilon_1 \epsilon_2$) and azimuth extent $\Delta \alpha$. This angular region is denoted as 
+
+\begin{equation}
+    \Omega = \Delta \alpha(sin \epsilon_2 - sin \epsilon_1)
+\end{equation}
+
+We can then find the area of an angular beam using 
+
+\begin{equation}
+    \Omega_{beam} = K_A \theta_A \theta_B
+\end{equation}
+
+and to find the number of beams to search the whole area, we use the equation
+
+\begin{equation}
+    n = K_{pack}\Omega / \Omega_{beam}
+\end{equation}
+
+where $K_{pack}$ is the packing factor, or how the beams are arranged to search a given sector. To calculate the average power of a search radar we use the formula
+
+\begin{equation}
+    P_A = P_T (\tau_P / T) = P_T d
+\end{equation}
+
+Where $tau_P$ is the pulsewidth, T is the PR, and d is the duty cycle. Search radar have limited a limited amount of time to search the sector denoted as $T_{scan}$. From the formulas listed above we can determine that 
+
+\begin{equation}
+    T = T_{scan} K_A \theta_A \theta_B / K_{pack} \Omega 
+\end{equation}
+
+and using this problem we can determine d
+
+\begin{equation}
+    d = \frac{\tau_p K_{pack} \Omega  }{T_{scan} K_A \theta_A \theta_B}
+\end{equation}
+
+Using these formulas above, we can finally determine the search radar range equation which is 
+\begin{equation}
+    SNR = \frac{ P_A A_e \sigma }{ 4 \pi R^4 k T_s L} \frac{T_{scan}}{K_{pack} \Omega  }
+\end{equation}
+
+This formula does not rely on operating frequency, antenna directivity, or pulsewidth, which is different from the formula for the standard radar range equation. This lack of parameters, could make it more valuable as there are less components to compute.
+
+\section{Chapter 3 Summary}
+Chapter 3 is soley about radar cross section (rcs), which is the scattering of EM waves by objects. This concept dates back to 1861, well before radar was created, but was in relation to EM scattering. The first definition of rcs is thus, 
+
+\begin{equation}
+    \sigma = 4 \pi \frac{ \mbox{power reradiated toward the source unit} }{ \mbox{incident power density}}
+\end{equation}
+
+The units for RCS is meters squared, as the numberator is watts, while the denominator is watts/meters squared. In general this value is hard to calculated, and can really only be approximated. Another general rule is that the RCS will be dependent of the targets physical size (with some special cases), and the radar wavelength. There is a specific curve related to RCS called the Mie series which shows normalized RCS vs normalized radius for a perfect sphere. 
+
+If the objects size is less than the wavelength, we can say the object exists in the Rayleigh reigon. An example of such objects are clouds and rain. If the objects RCS is becoming less dependent on wavelength, and more dependent on the objects size, it is said to be in the Mie region, also known as the resonace. Examples of these objects would be bullets, artillery shells, birds, or small aircraft (depending on the frequency). There is also a third region known as the optical region, where the object is much larger than the wavelength, and this is where most objects will exist. 
+
+The RCS will also depend on the objects orientation relative to line of sight (LOS). Since radar will be used on objects of varying size, or objects with multiple orientations, the Swerling RCS models was created. There are four of them, and each try to represent statistical and temporal vairation of RCS. SW1 and SW2 (Swerling 1 and 2), will rely on the following density functions
+
+\begin{equation}
+    f (\sigma) = \frac{1}{\sigma_{AV}} e^{-\sigma / \sigma_{AV}} U(\sigma)
+\end{equation}
+
+while SW3 and SW4 are dependent on the following density function
+\begin{equation}
+    f (\sigma) = \frac{4 \sigma}{\sigma^2_{AV}} e^{-2\sigma / \sigma_{AV}} U(\sigma)
+\end{equation}
+
+The main difference between SW1 and SW2, as well as SW3 and SW4 is the variation in time difference of RCS. With SW1 and SW3 RCS varies slowly, whereas SW2 and SW4 the RCS varies quickly. In SW1 and SW3 the targets the RCS will change scan by scan, where as SW2 and SW4 the RCS will change every pulse. A scan only occurs every couple seconds, where a pulse happens according to the PRI.
+
+SW1 and SW2 have RCS values that vary below $\sigma_{AV}$, whereas SW3 and SW4 have RCS values close to the average RCS, in relation to the density. Earlier we talked about RCS flucuation between SW models, which depends on the complexity of a target, the frequency of the radar, and the time between RCS observations. If we have a target modeled by multiple point sources, we compute the compsite RCS, or the RCS of all scatters as a function of time. In the case of RCS in the X band, the RCS remains constant but variation becomes random over a period in seconds. In the W band, RCS variation is much more rapid over intervals of milliseconds. 
+
+To understand the relationship between variation rate and operation frequency in relation to RCS, we calculate the voltage pulse from the transmitter as
+
+\begin{equation}
+    v_T(t) = V_T e^{j2\pi f_c t} rect \left[ \frac{1}{\tau_p} \right]
+\end{equation}
+
+This voltage is converted to an electric field by the antenna and moves to the target which creates another electric field. That field then moves back to the radar, where the antenna converts it back to voltage. If we have N point targets close together, we add together the electrial fields with the following equation
+
+\begin{equation}
+    v_T(t) = K \sqrt{\sigma} e^{j \phi} e^{j2\pi f_c t} rect \left[ \frac{t-2R/c}{\tau_p} \right]
+\end{equation}
+
+where
+
+\begin{equation}
+    \sigma = \left| \sum_{k=1}^{N} \sqrt{\sigma_k} e^{-j4 \pi R_k / \lambda }  \right| ^ 2
+\end{equation}
+
+and 
+
+\begin{equation}
+    \phi = arg \left( \sum_{k=1}^{N} \sqrt{\sigma_k} e^{-j4 \pi R_k / \lambda} \right)
+\end{equation}
+
+Where $\sigma_k$ is the $k_th$ scatterer, and is a strong function of $R_k$. $R_k$ is the range to the scatterer(s), where variations of $\lambda/2$ can cause the phase of voltage to the scatter ($K_th$) to vary by $2 \pi$. Keeping that in mind we can see that relative movment can drastically affect the value of the sum. As the carrier frequency increases, $\lambda$ decreases which effects $\sigma$. The variation in phase will show similar differences in temporal readings. This thought process has been largely theoretical. As stated earlier SW1/SW2 are most effective for complex objects/targets, and SW3/SW4 are best suited for simple targets. For research and development purposes simulation is used, we can use the following formula
+
+\begin{equation}
+    RCS = \sigma = \frac{1}{2} \left( x_1^2 + x_2^2 \right)
+\end{equation}
+
+where $x_1$ and $x_2$ are independent, gaussian variables with zero mean of equal variance. This variance should be the average RCS of the target. When simulating SW2 these variables are generated after every return pulse, and the phase will vary randomly between pulses. When simulating SW1, we generate the random numbers after a group of N pulses. To calculate the phase we use the formula
+
+\begin{equation}
+    \Phi = tan^{-1} (x_2, x_1)
+\end{equation}
+
+where tan is the arctangent. It is common to filter the random variables using a lowpass filter, this correlates them without breaking the statistical rules. We do this to make implementation easier. The bandwidth of the filter will rely on the operating frequency of the radar. When testing digital recursive filters are used to have the signal persist over long periods of time.
+
+To generate the RCS for SW3/SW4, we used the formula
+\begin{equation}
+    RCS = \sigma = \frac{1}{2} \left( x_1^2 + x_2^2 +  x_3^2 + x_4^2 \right)
+\end{equation}
+
+We calculate these random values after every group of N pulses, for SW3. For SW4 we calculate phase after every return pulse. When calculating the phase for this we can use the formula
+
+\begin{equation}
+    \Phi = tan^{-1} \left[ tan^{-1} (x_2, x_1) + tan^{-1} (x_4, x_3)   \right]
+\end{equation}
+
+As the statistics change due to flucuation in variables, a way of dealing with this is to change the operating frequency of the radar. A basic way to do that is 
+
+\begin{equation}
+    \Delta f \geq \frac{c}{2L} 
+\end{equation}
+
+where c denotes the speed of light, and L represents the targets length. If we assume a target is comprised of N scatters, we assume each has a random RCS that are independent of each other, and independent of range. We can use this to calculate the peak complex voltage, using 
+
+\begin{equation}
+    v(f_c) = \sum_{k=1}^{N} V_k e^{-j4\pi f_c R_k / c}
+\end{equation}
+
+where $f_c$ is the carrier frequency, $V_k$ is the complex voltage, and $R_k$ is the slant range. We can assume that $V_k$ is a phase randomly distributed over $2\pi$, and is assumed to be a independent, complex, random variable. We can also assume that 
+$V_k$, is the same at both the delta frequency and carrier frequency. 
+
+From this point to the end of the chapter, there is a lot of math formulas I am still trying to figure out, and how these components relate to radar technology. In the next summary, I will hopefully be able to include some of these forumlas, and discuss what they represent.
+
+% Bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%}%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\begin{thebibliography}{9}
+    \bibitem{BRA} M.C. Budge and S.R. German \textit{Basic Radar Analysis}. Norwood, MA: Artech House, 2015.
+\end{thebibliography}
+
+% Appendix A
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{Appendix A: Frequency Bands}
+
+Radars operate in the radio frequency band on the electromagnetic spectrum. The table below shows the waveband specifications as defined by the U.S. Institute of Electrical and Electronics Engineers (IEEE).
+
+    \begin{center}
+        \begin{tabular}{ |c|c|c| }
+            \hline
+                Band Name & Lower Frequency & Higher Frequency \\
+            \hline
+
+            \hline
+                HF & 3 MHz & 30 MHz \\
+                VHF & 30 MHz & 300 MHz \\
+                UHF & 300 MHz & 1000 MHz \\
+                L & 1 GHz & 2 GHz \\
+                S & 2 GHz & 4 GHz \\
+                C & 4 GHz & 8 GHz \\
+                X & 8 GHz & 12 GHz \\
+                Ku & 12 GHz & 18 GHz \\
+                K & 18 GHz & 27 GHz \\
+                Ka & 27 GHz & 40 GHz \\
+                V & 40 GHz & 75 GHz \\
+                W & 75 GHz & 110 GHz \\
+                mm & 110 GHz & 300 GHz \\
+            \hline
+        \end{tabular}
+    \end{center}
+
+\end{document}
