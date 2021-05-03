@@ -20,6 +20,10 @@ For lab training and safety hazards, visit ehs.psu.edu
   * Professor: Y. Liu
   * Room: Zoom Meeting
   * Meeting Time: Tr/Th 3:05-4:20
+  * This class was dropped and replaced with EE600
+
+* EE600: Thesis Research
+  * Professor: Dr. Narayanan  
   
 * EE 596: [Independent Study (Research Emmersion)](https://github.com/jzaunegger/PSU-Courses/tree/master/Spring-2021/EE-596)
   * Professor: R. Narayanan
