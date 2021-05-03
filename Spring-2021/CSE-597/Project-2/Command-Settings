@@ -1,0 +1,145 @@
+Optimization Trials
+
+GPU Allocation Command: 
+--------------------------------------------------------------------------------------------------------------------------
+interact -N 1 -p GPU -t 4:00:00 --gres=gpu:8
+interact --gpu -t 8:00:00
+-------------------------------------------------------------
+Conda Envs: 
+    eval
+    py36
+
+Trial 1
+============================================================================================================================================================================
+Train Start Time: Thur Apr 15 19:34:38 2021 (Beginning of Pass 1)
+Train End Time:   Thur Apr 15 23:05:04 2021
+-------------------------------------------------------------
+Train Time: 
+
+Config Parameters
+-------------------------------------------------------------
+Pass Count:     30  
+Alpha Decay:    0.03
+
+Commands:
+-------------------------------------------------------------
+./run_tgen.py seq2seq_train <path to config file> <path to -das.txt> <path to -text.txt> model.pickle.gz
+
+Train Command: ./run_tgen.py seq2seq_train ./e2e-challenge/config/config.yaml ./e2e-challenge/dataset/train-das.txt ./e2e-challenge/dataset/train-text.txt model.pickle.gz
+
+Evalu Command: ./run_tgen.py seq2seq_gen -w t1-outputs.txt -a ./e2e-challenge/dataset/test-abst.txt model.pickle.gz ./e2e-challenge/dataset/test-das.txt
+
+Score Command: ./e2e-metrics/measure_scores.py ./e2e-challenge/dataset/test-conc.txt t1-outputs.txt
+
+
+For Custom Datset:
+Train Command: ./run_tgen.py seq2seq_train ./e2e-challenge/config/config.yaml ./e2e-challenge/new_data/train-das.txt ./e2e-challenge/new_data/train-text.txt model.pickle.gz
+
+Evalu Command: ./run_tgen.py seq2seq_gen -w t1-outputs.txt -a ./e2e-challenge/new_data/test-abst.txt model.pickle.gz ./e2e-challenge/new_data/test-das.txt
+
+Score Command: ./e2e-metrics/measure_scores.py ./e2e-challenge/dataset/test-conc.txt t1-outputs.txt
+
+
+Scores: 
+    BLEU    - 0.6363
+    NIST    - 8.2287
+    METEOR  - 0.4504
+    ROUGE   - 0.6877
+    CIDEr   - 2.2410
+
+One Shot Learning Trials
+============================================================================================================================================================================
+
+Config Parameters
+-------------------------------------------------------------
+passes: 1
+min_passes: 1
+alpha_decay: 0
+
+
+Commands
+-------------------------------------------------------------
+Training Command
+-------------------
+./run_tgen.py seq2seq_train ./e2e-challenge/config/config.yaml ./e2e-challenge/dataset/train-das.txt ./e2e-challenge/dataset/train-text.txt model.pickle.gz
+
+Evaluation Command
+-------------------
+./run_tgen.py seq2seq_gen -w 1s-t1-outputs.txt -a ./e2e-challenge/dataset/test-abst.txt model.pickle.gz ./e2e-challenge/dataset/test-das.txt
+
+Scoring Command
+-------------------
+./e2e-metrics/measure_scores.py ./e2e-challenge/dataset/test-conc.txt 1s-t1-outputs.txt
+
+|=================================================================|
+|                             One Shot                            |
+|=================================================================|
+| Trial #          |    01    |    02    |    03    |     AVG.    |
+|-----------------------------------------------------------------|
+| Train Start Time | 21:20:48 | 22:11:33 | 22:44:03 |      NA     |
+| Train End Time   | 21:31:44 | 22:22:16 | 22:54:56 |      NA     |
+| Train Time Diff  | 00:10:56 | 00:10:43 | 00:10:53 | 00:10:50.67 |
+|-----------------------------------------------------------------|
+| Eval Start Time  | 21:51:39 | 22:23:13 | 22:55:56 |      NA     |
+| Eval End Time    | 22:06:49 | 22:38:18 | 23:09:49 |      NA     |
+| Eval Time Diff   | 00:15:10 | 00:15:05 | 00:13:53 | 00:14:42.67 |
+|-----------------------------------------------------------------|
+| Total Exe Time   | 00:26:06 | 00:25:48 | 00:22:46 | 00:24:53.33 |
+|-----------------------------------------------------------------|
+| BLEU             |   0.5351 |   0.5351 |   0.5351 |   0.5351    |
+| NIST             |   5.6687 |   5.6887 |   5.6887 |   5.6887    |
+| METEOR           |   0.3450 |   0.3450 |   0.3450 |   0.3450    |
+| ROUGE            |   0.6232 |   0.6232 |   0.6232 |   0.6232    |
+| CIDEr            |   1.3911 |   1.3911 |   1.3911 |   1.3911    |
+|=================================================================|
+
+
+
+|=================================================================|
+|                             Two Shot                            |
+|=================================================================|
+| Trial #          |    01    |    02    |    03    |     AVG.    |
+|-----------------------------------------------------------------|
+| Train Start Time | 17:28:50 | 18:07:43 | 18:51:27 |      NA     |  
+| Train End Time   | 17:48:18 | 18:27:29 | 19:10:52 |      NA     |
+| Train Time Diff  | 00:19:28 | 00:19:46 | 00:19:25 | 00:19:33.00 |
+|-----------------------------------------------------------------|
+| Eval Start Time  | 17:51:10 | 18:30:01 | 19:11:54 |      NA     |
+| Eval End Time    | 18:03:34 | 18:44:37 | 19:25:52 |      NA     |
+| Eval Time Diff   | 00:12:24 | 00:14:36 | 00:13:58 | 00:13:39.33 |
+|-----------------------------------------------------------------|
+| Total Exe Time   | 00:31:52 | 00:34:22 | 00:33:23 | 00:33:12.33 |
+|-----------------------------------------------------------------|
+| BLEU             |   0.5868 |  0.5868  |  0.5868  |    0.5868   |
+| NIST             |   6.9706 |  6.9706  |  6.9706  |    6.9706   |
+| METEOR           |   0.3906 |  0.3906  |  0.3906  |    0.3906   |
+| ROUGE            |   0.6556 |  0.6556  |  0.6556  |    0.6556   |
+| CIDEr            |   1.6755 |  1.6755  |  1.6755  |    1.6755   |
+|=================================================================|
+
+File Transfer using SCP:
+
+scp zaunegge@bridges2: filename /home/jzaunegger/Git-Repos/PSU-Courses/Spring-2021/CSE-597/Project-2/datafiles/
+
+
+|=================================================================|
+|                            Three Shot                           |
+|=================================================================|
+| Trial #          |    01    |    02    |    03    |     AVG.    |
+|-----------------------------------------------------------------|
+| Train Start Time | 12:39:24 | | |      NA     |  
+| Train End Time   | 13:07:43 | | |      NA     |
+| Train Time Diff  | 00:28:19 | | |  |
+|-----------------------------------------------------------------|
+| Eval Start Time  | 13:21:03 | |  |      NA     |
+| Eval End Time    | 13:33:47 | |  |      NA     |
+| Eval Time Diff   | 00:12:44 | |  |  |
+|-----------------------------------------------------------------|
+| Total Exe Time   | 00:41:03 |  | |  |
+|-----------------------------------------------------------------|
+| BLEU             |   0.6204 |    |    |
+| NIST             |   6.6386 |    |    |
+| METEOR           |   0.3856 |    |    |
+| ROUGE            |   0.6603 |    |    |
+| CIDEr            |   1.6461 |    |    |
+|=================================================================|

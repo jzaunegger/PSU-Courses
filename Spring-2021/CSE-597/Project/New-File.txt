@@ -1,0 +1,59 @@
+XSEDE Login Instructions
+================================================================================
+To login use the following commands. First connect using ssh and enter password
+and use DUO push. Then select the service to use
+
+    ssh -l jzaunegger login.xsede.org
+    gsissh bridges2
+
+Bridges Commands
+projects:               view available resources
+squeue -u username:     view queued jobs
+scancel jobnumber:      cancel a requested job     
+      
+Helpful Reminders
+================================================================================
+CONDA ENVRIONMENT: py36
+USING GPU: interact --gpu
+
+File Paths in the tgen/e2e-challenge dir
+================================================================================
+Config File:          tgen/e2e-challenge/config/config.yaml
+Converted Data:       tgen/e2e-challenge/dataset/train-das.txt     
+
+* Also updated the number of passes to 30 in the top chunk of code
+
+interact -N 1 -p GPU -t 4:00:00 --gres=gpu:8
+interact -N 2 -p GPU -t 6:00:00 --gres=gpu:16
+
+Sample Commands
+================================================================================
+Training Command (Development Set): ./run_tgen.py seq2seq_train ./e2e-challenge/config/config.yaml ./e2e-challenge/dataset/devel-das.txt ./e2e-challenge/dataset/devel-text.txt model.pickle.gz
+
+Training Command (Training Set): ./run_tgen.py seq2seq_train ./e2e-challenge/config/config.yaml ./e2e-challenge/dataset/train-das.txt ./e2e-challenge/dataset/train-text.txt model.pickle.gz
+
+Generation Commands
+----------------------
+
+Testing Command (Dev Set): ./run_tgen.py seq2seq_gen -w outputs-dev.txt -a ./e2e-challenge/dataset/devel-abst.txt model.pickle.gz ./e2e-challenge/dataset/devel-das.txt
+
+Testing Command (Testing Set): ./run_tgen.py seq2seq_gen -w outputs-test.txt -a ./e2e-challenge/dataset/test-abst.txt model.pickle.gz ./e2e-challenge/dataset/test-das.txt
+
+Testing Command (Training Set): ./run_tgen.py seq2seq_gen -w outputs-train.txt -a ./e2e-challenge/dataset/train-abst.txt model.pickle.gz ./e2e-challenge/dataset/train-das.txt
+
+Evaluation Commands
+----------------------
+Dev Eval: ./e2e-metrics/measure_scores.py ./e2e-challenge/dataset/devel-conc.txt outputs-dev.txt
+
+Test Eval: ./e2e-metrics/measure_scores.py ./e2e-challenge/dataset/test-conc.txt outputs-test.txt
+
+================================================================================
+Training Name   Settings            Dir Name
+--------------------------------------------------------------------------------
+Training Run 1 (Default Settings) - [tgen/training-run-1]
+Training Run 2 (Default Settings) - [tgen/training-run-2]
+Training Run 3 (Dev Set/Default Settings) - [tgen/training-run-3]
+
+Need to generate text from the DEV set and TEST set
+Then need to generate scores, and compare results
+Then need to finish off the slides and report.

@@ -1,0 +1,63 @@
+Optimization Trials
+
+GPU Allocation Command: interact -N 1 -p GPU -t 4:00:00 --gres=gpu:8
+
+Conda Envs: Eval Py36
+
+Trial 1
+============================================================================================================================================================================
+Train Start Time: Thur Apr 15 19:34:38 2021 (Beginning of Pass 1)
+Train End Time:   Thur Apr 15 23:05:04 2021
+-------------------------------------------------------------
+Train Time: 
+
+Config Parameters
+-------------------------------------------------------------
+Pass Count:     30  
+Alpha Decay:    0.03
+
+Commands:
+-------------------------------------------------------------
+Train Command: ./run_tgen.py seq2seq_train ./e2e-challenge/config/config.yaml ./e2e-challenge/dataset/train-das.txt ./e2e-challenge/dataset/train-text.txt model.pickle.gz
+
+Evalu Command: ./run_tgen.py seq2seq_gen -w t1-outputs.txt -a ./e2e-challenge/dataset/test-abst.txt model.pickle.gz ./e2e-challenge/dataset/test-das.txt
+
+Score Command: ./e2e-metrics/measure_scores.py ./e2e-challenge/dataset/test-conc.txt t1-outputs.txt
+
+Scores: 
+    BLEU    - 0.6363
+    NIST    - 8.2287
+    METEOR  - 0.4504
+    ROUGE   - 0.6877
+    CIDEr   - 2.2410
+
+One Shot Learning Trials
+============================================================================================================================================================================
+
+Config Parameters
+-------------------------------------------------------------
+passes: 1
+min_passes: 1
+alpha_decay: 0
+
+
+Commands
+-------------------------------------------------------------
+Training Command
+-------------------
+./run_tgen.py seq2seq_train ./e2e-challenge/config/config.yaml ./e2e-challenge/dataset/train-das.txt ./e2e-challenge/dataset/train-text.txt model.pickle.gz
+
+Evaluation Command
+-------------------
+./run_tgen.py seq2seq_gen -w 1s-t1-outputs.txt -a ./e2e-challenge/dataset/test-abst.txt model.pickle.gz ./e2e-challenge/dataset/test-das.txt
+
+Scoring Command
+-------------------
+./e2e-metrics/measure_scores.py ./e2e-challenge/dataset/test-conc.txt 1s-t1-outputs.txt
+
+File Transfer
+-------------------------------------------------------------
+
+    scp zaunegge:data.bridges2.psc.edu:tgen/e2e-challenge/dataset/filename /home/jzaunegger/Desktop/TGen-Data
+
+
