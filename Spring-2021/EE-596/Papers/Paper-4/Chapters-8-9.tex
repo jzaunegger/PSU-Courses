@@ -1,0 +1,1029 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{1em}
+
+\begin{document}
+
+\title{Chapter 8 to 9 Summary}
+\author{Jackson Zaunegger}
+\date{}
+\maketitle
+
+% Table of Content
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+This summary is based off of the book \cite{BRA}, and uses supplementary data from other sources as more background knowledge is needed. Something to note is that I will not be including all of the formulas listed in the book to keep this summary from becoming too long. I will only include essential formulas, and negate intermedite equations. 
+\tableofcontents
+
+% Chapter 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{Chapter 1 Summary}
+The first chapter begins by offering a introduction to the history of radar and its origins. The chapter then begins by making distinctions between how radar can use two types of signals, a sequence of pulses known as radio frequency (RF) energy or continuous waves (CW). CW radar generally requires two antenna, one for transmitting and one for receiving signals, where pulse radar only requires one. This difference is due to the fact that pulse radar uses time multiplexing to transmit a signal, then switch to the receiver to process the response. A internal switch allows the process to happen continuously, and because of the need for only one antenna, it use of pulsed radar has become more popular. 
+The authors then explain the difference between monostatic and bistatic radar, the two basic radar types. A monostatic radar is the more common as they are more compact, whereas a bistatic radar requires the separation of the transmitter and receiver, often covering large distances. The decision of choosing one method over the other, seems to vary depending on what application the user is trying to use. The overall goal of a radar is to determine the location of an object by measuring the distance that the object is from the radar itself. Modern radar can actually determine the distance of the object, as well as the rate of this rand and the angle of the range. This allows users to calculate the coordinates of the target as well as the velocity of the target. 
+The authors then discuss that radar operates in the RF band of the EM spectrum varying between 5 MHz and 300 GHz. However, the frequency being used in the radar will largely depend on the use case. They then offer a variety of considerations to make, such as lower frequencies requiring larger antenna and generally being less accurate. Search radar are often using lower frequencies, but lack fine measurement and tracking radar user higher frequencies with lower power. Keeping those ideas in mind it is more common to use different radar for tracking and searching. Other radars can complete both, but require trade offs in operating frequency. 
+When measuring the range, the time delay can be used to derive the range. The range can be calculated by multiplying the time it takes for a signal to be sent and received by the speed of light and the dividing that product by 2. Using that range, we have determined the slant range, or the range defined as a direct line from the radar to the target. An important distinction to make here is that time is generally measured in microseconds. However, this technique brings in ambiguity, because using a pulsed radar we often do not get a response before we send out a second signal. We and determine the unambiguous range by multiplying the speed of light by the pulse repetition interval (PRI) and dividing that product by 2. If the targets range is less than this ambiguous range, the measured range is unambiguous, if it is larger than the measured range is ambiguous. To avoid this problem altogether, a PRI is set to be larger than the range delay or the largest target range of interest, and a transmission power is selected to minimize the possibility of long-range detection. A interesting thing to note here is that this is generally a problem for searching radar but not tracking radar. This occurs because a tracking radar use algorithms to determine the target range, regardless of the return signal. 
+Another method to combat the problem of ambiguity is to vary the PRI of the transmission and receiving signal,  and the system can use this change to indicate ambiguous results. These range delays can measured and used in a range resolve algorithm to compute the actual range. This approach is common with Doppler radar, because they often result in ambiguous results. A third approach is to change the frequency in which the radar is operating, as you cannot receive a signal from a frequency that is no longer in the operational range. This results in the radar alternating between frequencies to determine range.
+The authors then begin to discuss the idea of usable range, and provide a formula to determine the minimum usable range. That minimum range is the product of the speed of light and the radar pulse width divided by two. This makes sense, as you could only detect the range of a target after the full pulse has been sent, as the receiving aspect of the system would still be off. This also applies to receiving a pulse too close to the transmission of another pulse. Which means we can determine the maximum range by first determining the difference of time between the pulse interval and the pulse width and multiplying by the speed of light, and dividing that product by two. While in theory we can determine the range of a target between these two bounds, most radar operates in a shallower range, referred to as the instrumented range which is dependent on system requirements. 
+The authors then introduce the idea of range rate, which is the rate at which a targets rate changes over time. This is done by measuring the frequency difference between the transmitted and received signal, also known as Doppler frequency. We can determine the new range by dividing the change in range by the change in time. If we are given a vector of values that hold data about the current position and new position (x, y, z), we can calculate the target range by taking the square root of x squared plus y squared plus z squared. Using this target range we can determine the new target range by using the following formula:
+\begin{equation}
+    X = [x y z \dot{x} \dot{y} \dot{z}]
+\end{equation}
+\begin{equation}
+    R = \sqrt{x^2 + y^2 + z^2}
+\end{equation}
+\begin{equation}
+    \dot{R} = \frac{dR}{dT} = \frac{x\dot{x}+y\dot{y}+z\dot{z}}{R}
+\end{equation}
+Relating back to measuring range rate with radar, we know a transmission pulse is a section of a sinusoid, whose frequency is equal to the operating frequency, also known as the carrier frequency $f_c$ of the radar. We can show the transmission pulse as
+\begin{equation}
+    v_r (t) = rect \left[ \frac{t - \tau_R - \tau_p / 2}{\tau_p} \right] cos \left[  2 \pi (f_c + f_d)t + \theta_R \right]
+\end{equation}
+An attenuated version of the transmission signal is
+\begin{equation}
+    V_R(t) = Av_T(t- \tau_R)
+\end{equation}
+where t represents time, $\tau_R$ represents transmission delay, $\tau_p$ represents the pulsewidth, $f_c$ is the carrier frequency, $f_d$, and represents the doppler frequency.
+The authors then discuss decibels, and how they relate to radar. A decibel is a value 10 times the logarithm to base 10 of that value. A decibel is denoted as dB, and is useful due to the largve range of numbers that occur when discussing radar. An example used with the signal to noise ratio is shown as
+\begin{equation}
+    SNR|_dB = 10log \left( \frac{P_S}{P_N} \right)
+\end{equation}
+Where $P_S$ represents the signal power, and $P_N$ represents in noise power in the same unit as signal power. They then go on to explain other notations for decibels and how they relate to specific units of power. They then go on to show a table of common decibel values and how they relate to power ratios.
+In previous discussion, math formulas use real signal notation where the inclusion of sin and cosine are left in the formula. To avoid using trigonometric functions, complex signal notation is often used. This is when complex functions use complex exponents in the arguments. The reason for using the complex notation is for easier manipulation of math formulas, specifically because multiplying exponents is easier than multiplying sin or cosine. It also allows for the separation of various signal properties by separating them into complex terms. This notation can be further expanded by dropping the carrier frequency to zero, as that is common notation when dealing with alternating current. Instead use the voltages and currents, the amplitudes and phases are used. This is known as baseband signal notation. The term baseband essentially means having a carrier frequency of zero. 
+
+% Chapter 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Chapter 2 Summary}
+This chapter is all about the radar range equation, which was created during WWII, and is often misunderstood due to the terminology involved. A basic form of this equation is 
+\begin{equation}
+    SNR = \frac{E_s}{E_n} =  \frac{P_T G_T G_R \lambda^2 \sigma \tau_p }{(4\pi)^3 R^4 k T_s L}
+\end{equation}
+Where SNR denotes the signal to noise ratio in units of joules per joule or watt-seconds per second. $E_S$ denotes the signal energy in joules or watt-seconds. $E_N$ denotes the noise energy in joules, at the same time $E_S$  is output. $P_T$ denotes the peak transmit power, or the average power in watts during signal transmission (transmitter). $G_T$ denotes the directive gain of the transmission antenna in units of watt per watt. $G_R$ denotes the directive gain of the receiving antenna in units of watt per watt. $\lambda$ denotes the radar wavelength in units of meters. $\pi$ denotes the radar cross section in square meters. $\tau_p$ is the transmission pulsewidth in seconds. $R$ denotes the slant range from the radar to the target in meters. $k$ denotes Boltzmann's constant which is equal to $1.3806503x10^-23$. $T_s$ denotes the system noise temperature. $T_0$ denotes the reference temperature in Kelvin, which is generally 290k. $F_n$ denotes the noise figure in units of watt per watt. Finally, we have $L$ denotes all the losses that relate to the signal, and has the units of watts per watt. 
+This equation is applicable to single pulse radar, as it is based on a single transmission pulse. It is also good to note that the formula listed here, is using an energy ratio compared to a power ratio. 
+To begin understanding the equation above, we start by considering a transmitter sending a pulse through the waveguide and out the antenna. The peak transmission power or $P_T$, is the average transmit power over the duration of the pulse. We can take into account atmospheric loss through variable $L$. We must also consider that the waveguide also adds loss. (There are other components between the transmitter and antenna, but for simplicity we will refer to it as the waveguide.) This loss we can consider the transmit loss or $L_t$. Keeping this loss in mind, we can determine that the power at the input of the antenna (antenna power feed) is equal to the transmission power divided by the transmission loss. If we combine all of the loss together $L_{ant}$, we can determine that the pulse power at the antenna $P_{rad}$ is equal to the power feed divided by the total loss. Finally, we can calculate the actual energy radiated by the antenna to be the pulse power times the pulse width. 
+As the author states, the purpose of an antenna is to focus the energy through a concentrated area, however this beam is lossy. The energy density actually emitted depends on many different factors such as approximate area we are trying to estimate $A_{beam}$ and the major and minor axis of the ellipse $\theta_A$ and $\theta_B$. We also have to consider the scale factor $K_A$ and  the antenna directivity $G_T$. This antenna directivity depends on the antenna loss, and must be modified if the radar is not pointed directly at a target by the antenna pattern. 
+Another important concept worth considering is called the effective radiated power, or the energy distribution if the antenna would focus energy equally around a sphere. Since this cannot happen in the real world, we use a scale factor $K_A$. This also helps account for the fact that the energy is not directly focused in a beam and is lossy. This energy that leaves the focus area is referred to as antenna sidelobes. Using that scale factor we can calculate the antenna directivity, which is also dependent on the antenna beamwidths. These beamwidths are the distances at which the antenna directivity falls 3 decibels beneath the maximum value. Keeping all of these aspects in mind, we can determine the energy density $S_R$ (units W-s/m squared) using the following equation:
+\begin{equation}
+    S_R = \frac{G_T P_T \tau_p}{4 \pi R^2 L_t L_{ant}}
+\end{equation}
+As the radar sends out electromagnetic waves, they pass a target and capture some of its energy. The target in turn generates a second wave which is sent away from itself. We can calculate this by using the radar cross section which is defined by
+\begin{equation}
+    E_{tgt} = \sigma S_R 
+\end{equation}
+If we assume that target radiates energy back uniformly, we can represent the energy density at the radar using 
+\begin{equation}
+    S_{rec} = \frac{P_T G_T \sigma \tau_p}{(4 \pi)^2 R^4 L_t L_{ant}}
+\end{equation}
+This energy coming back from the target, the antenna captures some of it and sends it back into the receiver. We can calculate the energy output from the energy feed using
+\begin{equation}
+    E_{ant} = \frac{P_T G_T G_R \lambda^2 \sigma \tau_p}{(4 \pi)^3 R^4 L_t L_{ant}}
+\end{equation}
+where $A_e$ denotes the area in which the antenna is effective in measuring EM energy. This is also known as the effect aperture which can be calculated using the following formula
+\begin{equation}
+    A_{e} = \rho_{ant} A_{ant}
+\end{equation}
+where $A_ant$ is the antennas area projected to a plane, and $\rho_{ant}$ represents the antenna efficiency. If we wanted to find the antenna directivity with respect to gain $G$, where we account for all receiver components up to where we measure SNR
+\begin{equation}
+    S_{rec} = \frac{P_T G_T \sigma \tau_p}{(4 \pi)^2 R^4 L_t L_{ant}} G
+\end{equation}
+Now that we can calculate signal energy in the radar, it is time to calculate the noise energy. Noise comes from the environment and components of the receiver. The noise comes from the atmosphere (galactic noise), the earth, and from electrical components (thermal noise). We can calculate the noise from electrical components using
+\begin{equation}
+    N_0 = kT_0F
+\end{equation}
+where k is Boltzmann's constant, T is the noise temperature, and F is the noise figure from a device. However, this does not represent all noise, which we can calculate the noise for the environment and electronics using the formula
+\begin{equation}
+    E_N =   GkT_s= Gk \left[ T_a + (F_n - 1) T_0\right]
+\end{equation}
+where $G$ is the gain, $T_s$ is the system noise temperature, $T_a$ is the antenna temperature, and $F_n$ is the overall noise. The antenna temperature provides a measurement to estimate environment noise, which will depend on the angle of the radar beam relative to the horizon. An alternative measurement for system noise temperature is 
+\begin{equation}
+    T_s = F_n T_0
+\end{equation}
+This formula is used when $F_n$ is larger than 7 decibels. A good thing to note is $F_n$ contains the loss from the receiving path of the radar, so it should not be accounted for in the loss term. Combining the formulas listed above we have our final form for the signal to loss ratio, which is calculated using the formula
+\begin{equation}
+    SNR = \frac{E_S}{E_N} = \frac{P_T G_T G_R \lambda^2 \sigma \tau_p}{ (4 \pi)^3 R^4 k T_s L }
+\end{equation}
+If we want to calculate the SNR as a power ratio we use the formula 
+\begin{equation}
+    SNR = \frac{ (P_T G_T G_R \lambda^2 \sigma) / \left[ (4 \pi)^3 R^4 L \right] }{k T_s B_{eff}} = \frac{P_S}{P_N}
+\end{equation}
+where $B_{eff}$ is equal to $1 / \tau_p$. It is good to note that this bandwidth may not actually exist in the radar, so the formula directly above is generally only used with continuous wave radar. So it is often replaced with the doppler filter of the signal processor.
+A use of the radar range equation is to determine the detection range, or the maximum range that something that can be detected with the radar. However, this is only possible if the SNR is above a threshold. The SNR will increase as range decreases as they are inversely proportional. If we want to find the radar range we use the formula 
+\begin{equation}
+    R = \left[ \frac{P_T G_T G_R \lambda^2 \sigma \tau_p}{(4 \pi)^3 (SNR) k T_s L} \right]^{1/4}
+\end{equation}
+The radar range equation can be extended to be used with search radars. Generally the performance measure of characterizing search radar is the average power-aperture product $P_A A_E$, which is the average power multiplied by the aperture. If we assume a radar searches an angular region $\Omega$ which is measured in steradians $({rad}^2)$, or a section of a sphere in relation to an elevation extent ($\epsilon_1 \epsilon_2$) and azimuth extent $\Delta \alpha$. This angular region is denoted as 
+\begin{equation}
+    \Omega = \Delta \alpha(sin \epsilon_2 - sin \epsilon_1)
+\end{equation}
+We can then find the area of an angular beam using 
+\begin{equation}
+    \Omega_{beam} = K_A \theta_A \theta_B
+\end{equation}
+and to find the number of beams to search the whole area, we use the equation
+\begin{equation}
+    n = K_{pack}\Omega / \Omega_{beam}
+\end{equation}
+where $K_{pack}$ is the packing factor, or how the beams are arranged to search a given sector. To calculate the average power of a search radar we use the formula
+\begin{equation}
+    P_A = P_T (\tau_P / T) = P_T d
+\end{equation}
+Where $tau_P$ is the pulsewidth, T is the PR, and d is the duty cycle. Search radar have limited a limited amount of time to search the sector denoted as $T_{scan}$. From the formulas listed above we can determine that 
+\begin{equation}
+    T = T_{scan} K_A \theta_A \theta_B / K_{pack} \Omega 
+\end{equation}
+and using this problem we can determine d
+\begin{equation}
+    d = \frac{\tau_p K_{pack} \Omega  }{T_{scan} K_A \theta_A \theta_B}
+\end{equation}
+Using these formulas above, we can finally determine the search radar range equation which is 
+\begin{equation}
+    SNR = \frac{ P_A A_e \sigma }{ 4 \pi R^4 k T_s L} \frac{T_{scan}}{K_{pack} \Omega  }
+\end{equation}
+This formula does not rely on operating frequency, antenna directivity, or pulsewidth, which is different from the formula for the standard radar range equation. This lack of parameters, could make it more valuable as there are less components to compute.
+
+% Chapter 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Chapter 3 Summary}
+Chapter 3 is solely about radar cross section (rcs), which is the scattering of EM waves by objects. This concept dates back to 1861, well before radar was created, but was in relation to EM scattering. The first definition of rcs is thus, 
+\begin{equation}
+    \sigma = 4 \pi \frac{ \mbox{power reradiated toward the source unit} }{ \mbox{incident power density}}
+\end{equation}
+The units for RCS is meters squared, as the numerator is watts, while the denominator is watts/meters squared. In general this value is hard to calculated, and can really only be approximated. Another general rule is that the RCS will be dependent of the targets physical size (with some special cases), and the radar wavelength. There is a specific curve related to RCS called the Mie series which shows normalized RCS vs normalized radius for a perfect sphere. 
+If the objects size is less than the wavelength, we can say the object exists in the Rayleigh region. An example of such objects are clouds and rain. If the objects RCS is becoming less dependent on wavelength, and more dependent on the objects size, it is said to be in the Mie region, also known as the resonance. Examples of these objects would be bullets, artillery shells, birds, or small aircraft (depending on the frequency). There is also a third region known as the optical region, where the object is much larger than the wavelength, and this is where most objects will exist. 
+The RCS will also depend on the objects orientation relative to line of sight (LOS). Since radar will be used on objects of varying size, or objects with multiple orientations, the Swerling RCS models was created. There are four of them, and each try to represent statistical and temporal variation of RCS. SW1 and SW2 (Swerling 1 and 2), will rely on the following density functions
+\begin{equation}
+    f (\sigma) = \frac{1}{\sigma_{AV}} e^{-\sigma / \sigma_{AV}} U(\sigma)
+\end{equation}
+while SW3 and SW4 are dependent on the following density function
+\begin{equation}
+    f (\sigma) = \frac{4 \sigma}{\sigma^2_{AV}} e^{-2\sigma / \sigma_{AV}} U(\sigma)
+\end{equation}
+The main difference between SW1 and SW2, as well as SW3 and SW4 is the variation in time difference of RCS. With SW1 and SW3 RCS varies slowly, whereas SW2 and SW4 the RCS varies quickly. In SW1 and SW3 the targets the RCS will change scan by scan, where as SW2 and SW4 the RCS will change every pulse. A scan only occurs every couple seconds, where a pulse happens according to the PRI.
+SW1 and SW2 have RCS values that vary below $\sigma_{AV}$, whereas SW3 and SW4 have RCS values close to the average RCS, in relation to the density. Earlier we talked about RCS fluctuation between SW models, which depends on the complexity of a target, the frequency of the radar, and the time between RCS observations. If we have a target modeled by multiple point sources, we compute the composite RCS, or the RCS of all scatters as a function of time. In the case of RCS in the X band, the RCS remains constant but variation becomes random over a period in seconds. In the W band, RCS variation is much more rapid over intervals of milliseconds. 
+To understand the relationship between variation rate and operation frequency in relation to RCS, we calculate the voltage pulse from the transmitter as
+\begin{equation}
+    v_T(t) = V_T e^{j2\pi f_c t} rect \left[ \frac{1}{\tau_p} \right]
+\end{equation}
+This voltage is converted to an electric field by the antenna and moves to the target which creates another electric field. That field then moves back to the radar, where the antenna converts it back to voltage. If we have N point targets close together, we add together the electrical fields with the following equation
+\begin{equation}
+    v_T(t) = K \sqrt{\sigma} e^{j \phi} e^{j2\pi f_c t} rect \left[ \frac{t-2R/c}{\tau_p} \right]
+\end{equation}
+where
+\begin{equation}
+    \sigma = \left| \sum_{k=1}^{N} \sqrt{\sigma_k} e^{-j4 \pi R_k / \lambda }  \right| ^ 2
+\end{equation}
+and 
+\begin{equation}
+    \phi = arg \left( \sum_{k=1}^{N} \sqrt{\sigma_k} e^{-j4 \pi R_k / \lambda} \right)
+\end{equation}
+Where $\sigma_k$ is the $k_th$ scatterer, and is a strong function of $R_k$. $R_k$ is the range to the scatterer(s), where variations of $\lambda/2$ can cause the phase of voltage to the scatter ($K_th$) to vary by $2 \pi$. Keeping that in mind we can see that relative movement can drastically affect the value of the sum. As the carrier frequency increases, $\lambda$ decreases which effects $\sigma$. The variation in phase will show similar differences in temporal readings. This thought process has been largely theoretical. As stated earlier SW1/SW2 are most effective for complex objects/targets, and SW3/SW4 are best suited for simple targets. For research and development purposes simulation is used, we can use the following formula
+\begin{equation}
+    RCS = \sigma = \frac{1}{2} \left( x_1^2 + x_2^2 \right)
+\end{equation}
+where $x_1$ and $x_2$ are independent, gaussian variables with zero mean of equal variance. This variance should be the average RCS of the target. When simulating SW2 these variables are generated after every return pulse, and the phase will vary randomly between pulses. When simulating SW1, we generate the random numbers after a group of N pulses. To calculate the phase we use the formula
+\begin{equation}
+    \Phi = tan^{-1} (x_2, x_1)
+\end{equation}
+where tan is the arctangent. It is common to filter the random variables using a lowpass filter, this correlates them without breaking the statistical rules. We do this to make implementation easier. The bandwidth of the filter will rely on the operating frequency of the radar. When testing digital recursive filters are used to have the signal persist over long periods of time.
+To generate the RCS for SW3/SW4, we used the formula
+\begin{equation}
+    RCS = \sigma = \frac{1}{2} \left( x_1^2 + x_2^2 +  x_3^2 + x_4^2 \right)
+\end{equation}
+We calculate these random values after every group of N pulses, for SW3. For SW4 we calculate phase after every return pulse. When calculating the phase for this we can use the formula
+\begin{equation}
+    \Phi = tan^{-1} \left[ tan^{-1} (x_2, x_1) + tan^{-1} (x_4, x_3)   \right]
+\end{equation}
+As the statistics change due to fluctuation in variables, a way of dealing with this is to change the operating frequency of the radar. A basic way to do that is 
+\begin{equation}
+    \Delta f \geq \frac{c}{2L} 
+\end{equation}
+where c denotes the speed of light, and L represents the targets length. If we assume a target is comprised of N scatters, we assume each has a random RCS that are independent of each other, and independent of range. We can use this to calculate the peak complex voltage, using 
+\begin{equation}
+    v(f_c) = \sum_{k=1}^{N} V_k e^{-j4\pi f_c R_k / c}
+\end{equation}
+where $f_c$ is the carrier frequency, $V_k$ is the complex voltage, and $R_k$ is the slant range. We can assume that $V_k$ is a phase randomly distributed over $2\pi$, and is assumed to be a independent, complex, random variable. We can also assume that 
+$V_k$, is the same at both the delta frequency and carrier frequency. To make the assumption that they are the same we can calculate $v(f_c + \delta f)$
+\begin{equation}
+    v(f_c + \Delta f) = \sum_{k=1}^{N} V_k e^{-j4\pi (f_c + \Delta f) R_k / c}
+\end{equation}
+Using this formula we can calculate the correlation coefficient between $v(f_c + /delta f)$ and $v(f_c)$, using the following formula
+\begin{equation}
+   r(\Delta f) = \frac{ C(\Delta f) }{ \sqrt{\sigma^2 (f_c) \sigma^2 (f_c + \Delta f)}}
+\end{equation} 
+Where $v(f_c + \delta f)$ and $v(f_c)$ represent the covariance, $\sigma^2$ is the variance of the two frequencies. To simplify this equation, we rewrite the equation as 
+\begin{equation}
+   E\{ v(f) \} = \sum_{k=1}^{N} E \{ V_k\} E \{ e^{-j 4 \pi f_c R_k / c} \}
+\end{equation}
+The authors then go on to further derive the mathematics and theory behind the math and how it relates to this particular equation. To keep this summary brief, I will move on to the next session.
+
+% Chapter 4
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Chapter 4 Summary}
+Chapter 4 is all about Noise, in terms of the radar range equation. Thermal Noise (also known as Johnson Noise), is the most common for radar and is the result of charges in conductors. The noise voltage being generated is calculated using the following equation 
+\begin{equation}
+    \sigma_v^2 = E \{ v^2 (t) \} = r R k T df V^2
+\end{equation}
+Where R represents the resistor voltage in Ohms at temperature T in kelvin, and k is Boltzmann's constant. The noise voltage generated in a frequency interval (df), is expressed as v(t). This v(t) is zero-mean, which means the voltage does not have DC components. The noise energy, kT is calculated from Plancks Law, which is 
+\begin{equation}
+    E = \frac{hf}{ exp(hf/ kT) - 1}
+\end{equation} 
+where h is $6.6254x10^-34$ (Planck's constant) and the frequency is measured in Hz. As f approaches zero, this equation is simplified to $E =kT$. To determine the noise voltage, you can connect a noisy resistor to a noiseless one, and find the power being delivered by the noisy resistor in a circuit. The voltage across the noiseless resistor $R_L$ is calculated by
+\begin{equation}
+    v_{R_L} (t) = v (t) \frac{R_L}{R_L + R} V
+\end{equation} 
+Using that formula we can determine the power delivered to the resistor in differential bandwidth ($df$) is
+\begin{equation}
+    P_L = \frac{ E \{v_{R_L} \}(t)}{R_L} = \frac{E \{ v^2 (t)\} R_L}{(R_L + R)^2} = \frac{4kTRR_L df}{(R_L + R)^2} W
+\end{equation}
+If $R_L = R$, or the load is equal to the source resistance
+\begin{equation}
+    P_L = \frac{4kTR^2 df}{(2R)^2} = kTdf W
+\end{equation}
+If we divide by $P_L$ by $df$ we can determine the energy delivered to the load is equal to 
+\begin{equation}
+    E_L = kT
+\end{equation}
+If our network has many noisy resistors, we find the Thevenin circuit using superposition. Lets consider a case with N resistors. To find the source voltage of the circuit using only each source, we use this formula for each source
+\begin{equation}
+    v_{on}(t) = v_n (t) \frac{R_2}{R_1 + R_2} V
+\end{equation}
+Using superposition we can determine the voltage for the circuit including each resistor using this formula
+\begin{equation}
+    v_{o} (t) = v_1 (t) + v_3 (t) + ... + v_n (t) 
+\end{equation}
+To determine the overall resistance, we short our voltage sources, and find the resistance across each terminal, if we note that the resistors are in parallel, we compute the equivalent resistance by using this formula
+\begin{equation}
+    R = R_1 || R_2 = \frac{R_1 R_2}{R_1 + R_2} \Omega
+\end{equation}
+We also need the mean-square value of $v_o (t)$, to do this we must assume that the voltage from each resistor is independent. Making this assumption, we determine 
+\begin{equation}
+    E \{v_1 (t) ... v_n(t) \} = E\{ v_1(t)\}E\{ v_2(t)\} ... E\{ v_n(t)\} = 0
+\end{equation}
+We then come to the final formula which is 
+\begin{equation}
+    \sigma_{v_0}^{2} = \sigma_{v_1}^{2} \frac{R_N^2}{(R_1 + R_2)^2} + ... + \sigma_{v_1}^{2} \frac{R_2^2}{(R_1 + R_2)^2} + \sigma_{v_n}^{2} \frac{R_1^2}{(R_1 + R_2)^2} = 4kTRdf V^2
+\end{equation}
+For passive devices, this formulas work just fine. But for more active devices, other techniques must be used. Noise energy delivered to the load, depends on the input noise energy to the device and the noise generated internally. This is done by writing the noise energy delivered to the load, as the sum of the amplified input noise and the internally generated noise:
+\begin{equation}
+    E_{nout} = GE_{nin} + E_{nint} = GkT_a + GkT_e
+\end{equation}
+Where $G$ denotes the gain of the device, $kT_a$ denotes the source noise energy, $T_a$ denotes the noise temperature of the source, $GkT_e$ denotes the noise energy being generated internally by the device, and $T_e$ denotes the effective noise temperature of the device. $GE_{nin}$ describes the portion of the output noise energy due to noise in the device. That output noise is amplified by the gain of the device. Using the formula above, we can determine a expression for calculating noise energy.
+\begin{equation}
+    E_{nout} = GE_{nin} + E_{nint} = GkT_a + GkT_e = Gk(T_a + T_e) = GkT_s
+\end{equation}
+This noise takes the form of noise entering a antenna from the environment. This temperature ranges in 10s of degrees kelvin on a clear day, to 1000s when it points at the sun. The energy from the resistors does not take the form of actual temperature, but still produces noise energy which needs to be accounted for. Alternatively, you can use a noise figure, which is a ratio of SNR of the input device, and SNR of the output device, and takes the form:
+\begin{equation}
+    E_n = \frac{SNR_{in}}{SNR_{out}} = \frac{P_{sin} / P_{nin}}{P_{sout}/ P_{nout}}
+\end{equation}
+where $P_{sin}$ denotes the input signal power, $P_{nin}$ is the noise power, $P_{sout}$ which denotes the signal output power, and $P_{nout}$ denotes the noise power out of the device. The actual definition is interpreted from this, where noise is the energy delivered with some gain.
+\begin{equation}
+    F_n = \frac{GkT_0 + GkTe}{GkT_0} = 1 + \frac{T_e}{T_o}
+\end{equation}
+For most things, noise is something that is measured. However, this is untrue for attenuators. For an attenuator of L > 1 the noise figure is assumed to be equal to the attenuators attenuation. This is because the attenuator is matched to the source and load impedance and produces noise equal to the noise energy input to that attenuator. 
+Typically radar is comprised of multiple devices that contribute to the overall noise temperature of the system. To determine this noise, we examine the cascade of components. This is to map how noise energy radiates throughout the system. Each device is characterized by its gain $G_k$, noise figure $F_k$, and noise temperatures $T_k$.
+For example the noise temperature is calculated using the following equation for a system with N devices.
+\begin{equation}
+    T_{eN} = T_1 + \frac{T_2}{G_1} + \frac{T_3}{G_1 G_2} +  ... + \frac{T_N}{G_1 G_2 ... G_N-1}
+\end{equation}
+and the system noise figure is 
+\begin{equation}
+    F_{nN} = F_1 + \frac{F_2 -1}{G_1} + \frac{F_3 -1}{G_1 G_2} + \frac{F_4 -1}{G_1 G_2 G_3} +  ... + \frac{F_N -1}{G_1 G_2 G_3 ... G_{N-1}}
+\end{equation}
+If we wanted to determine the output noise energy from a noise source other than the first device we can use the following formula
+\begin{equation}
+    E_{nout} = GE_{min} + E_{mint} = GkT_a + GkT_e
+\end{equation}
+If you want to calculate the noise temperature of source $T_a$, using the cascade of N devices, the combined gain G of those N devices, the effective noise temperature of N devices $T_e$, and the noise figure of N devices $F_n$, use the following formula
+\begin{equation}
+    E_{nout} = GE_{min} + E_{mint} = GkT_a + GkT_e = GkT_a + GkT_0 (F_n -1)
+\end{equation}
+It is good to noise to include loss between the antenna and the first device, if the noise temperature of the source device is not equal to 0. If they are equal that loss can be ignored. 
+
+% Chapter 5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Chapter 5 Summary}
+Chapter 5 is all about radar loss, which was introduced in the radar range equation as L. To begin understanding this loss, lets start with the transmitter and the antenna. Later we will look at loss between the antenna and RF amplifier, known as RF Losses. 
+Transmission loss occurs in the components between the RF power source and antenna. A waveguide run is the physical connections between devices in the form of a transmission line. It is used because it generates low loss and can handle power throughput. Waveguide switches are used for routing signals between these devices. Power dividers are used to split the power distribution and combing power. The duplexer is a used for transmission and receiving of radar pulse waves and protects from high power returns. Is often a high power Circulator but can sometimes be a TR switch. A TR switch is a device that prevents energy transmissions from reaching the receiver, but allows received energy to reach the receiver with very little loss. 
+Circulators are three port devices where the signal enters one port and leaves out another. Closing one of those ports allows for an Isolator, which sends a signal one way only. Receiver protection is completed using diodes, ferrite limiters, or TR tubes. A Preselector is a filter used in the receiver to limit bandwidth. Directional couplers are used to test the transmitter. The power ratio between the input signal and sampled signal is set to a calibrated amount. A low coupling radar allows transmission power measurements to be made using testing tools. 
+A rotary joint is used to couple energy from a transmission line to a rotating device like an antenna. A mode adapter changes the mode of propagation. Waveguide attenuators are used in front of the RF receiver low noise amplifier (LNA) for automatic gain control. 
+The loss of a rectangular waveguide can be calculated in dB/m using the following formula. $f$ is the frequency ($f<$ 200 GHz)
+\begin{equation}
+    K_{aW} = 0.0045 * f^{1.5} -0.00003 * f^{2.2} (dB/m)
+\end{equation}
+For active phased arrays using TR modules, the loss occurs because of a circulator or switch, to route signals to the power amplifier. Due to this the loss, is lower than other methods. 
+Next in the transmission process comes the antenna and antenna feed. A chart in the appendix lists common losses in the antenna, as well as their location and component in that system. In a series feed energy enters on side of a transmission line and is pulled out from various points across the line. In a parallel feed network energy is sent across a line and is split before delivering power to each component. The default loss assigned to each array is 0 dB because the radiating element is very close to the power amplifier. The phase shifter loss applies to the entire array, not each element in the array. Mismatch loss is due to a mismatch between free space and the radiating elements, and is calculated by 
+\begin{equation}
+    L_T = \frac{1}{1-\Gamma^2}
+\end{equation}
+Where $\Gamma$ is the reflection coefficient and VSWR is the voltage to standing wave ratio. 
+\begin{equation}
+    \Gamma = \frac{VSWR-1}{VSWR+1}
+\end{equation}
+The mismatch loss is calculated using the element power gain ${cos}^{\beta}\theta$, and the following formula:
+\begin{equation}
+    \Gamma_{ms} = \frac{1}{ (1-\Gamma^2) {cos}^{\beta-1} (\theta) }
+\end{equation}
+Some subtract the antenna loss from the directivity to calculate antenna gain. One should be careful when calculating antenna directivity, gain, and loss in the radar range equation. The antenna uses the beam scan to scan broadside, when this happens antenna directivity decreases, as it is not included when generating the scan angle for the antenna. It should be included as a loss with a factor of $ L_{scan} = {cos}^-\beta \theta$.
+The next loss to consider is beam shape loss, this occurs when the antenna beam is not pointed exactly toward the target, or where the beam scans the target. Due to this the antenna directivity terms ($G_T$ and $G_R$) in the radar range equation, will not be accurate. This happens during searches because the target is too close to the beam center. The way to include this is to calculate it as a loss variable. Default values for the loss tend to be 1.24 or 2.48 dB. They are related to topics called 1D and 2D scanning, respectively. The first dimension uses a large wide beam to scan, typically the elevation. 2D uses this broad beam as well as a secondary, more focused beam in another dimension. This secondary beam rotates around to scan the surrounding area. During both scans, antenna directivity changes, as each pulse has a unique SNR, to account for this 1D loss is included. 2D loss is generally calculated for radar that scan in the 1D as well as in a dome like shape around radar measured in angles $u$ and $v$. The radar moves around to fire pulses in a variety of locations and angles.
+In both cases it is assumed that both beams are closely aligned, a term called dense packing. There is also sparse packing, which is space that has not been scanned yet, but is assumed eventually will. We assume that search or scan radars are operating in the L band. If it is the L band we use 1D, scanning a wide area where VSWR = 1.5, $\beta$ = 1.5 and $\theta$ = 30. Scans in the S band are assumed to be tightly packing, and the X band are slightly less packed. The X band introduces the most loss, followed by the S band.
+Propagation loss is another thing worth considering that occurs from exposure to oxygen and water vapor or rain. This loss depends on frequency, elevation, atmospheric pressure, humidity, and temperature, however standard atmosphere is generally used. Lookup tables exist to determine the proper parameters to use, give specific weather conditions, and the radar band being used.
+The receiver's loss is similar to the transmission loss, the exception is if the radar uses separate transmitter and receiver or different feeds. If may be necessary to count these losses separately if this is the case. The scall loss is not the same and must be calculated but only applied to the receiver or the transmitter, not both. When calculating the loss for L and S band radar, add the loss between the components of the feed and amplifier. The loss will increase as attenuation does. For the case of the X band radar, only RF received loss are included for the circulator. The final set of losses to calculate are for the matched filter, signal processor, and CFAR circuitry. The loss associated for the filter applies to matched filters on unmodulated pulses or for chips of phase coded pulses. The rectangular pulse being generated becomes distorted due to limited bandwidth. Sidelobe reduction loss applies to waveforms that use linear frequency modulation (LFM) for pulse compression. They use amplitude tapers, which reduce the peak of the filter output. This reduction depends on the weighing algorithm and desired levels. With the increased use of digital signal processors, phase weightings is being investigated. They have reduced sidelobes, without the loss. It is common for waveforms to use staggered PRIs, which fall in the range of the doppler frequencies, known as blind velocities. The average SNR across the frequency is between 0 and 1 dB. Amplitude weighing is implemented with LFM waveforms to reduce clutter rejection capability of the doppler processor. A common method is the Chebyshev with, Blackman, and Blackman-Harris also being used. The final loss is computed using CFAR as it can easily adapt to different noise environments. CFAR determines the threshold to noise ratio at the output of the signal processing. The actual CFAR loss value depends on the amount of noise samples to set the threshold, and the type of CFAR. One example of this is a CFAR loss of a greatest cell average using square law detector and swerling target 1 using the following formula:
+\begin{equation}
+    L_{cfar} = \frac{P_{fa}^{-1/M}-P_d^{-1/M}}{P_d^{-1/M}-1} \frac{ln(P_d)}{ ln(P_{fa})-ln(P_d) }
+\end{equation}
+where $P_{fa}$ is the false alarm probability, $P_d$ is the detection probability, and M is the number of reference cells used in the noise estimate. This noise is approximated using the following formula
+\begin{equation}
+    L_{cfar} \approx \frac{10^{x/M}-1}{ln(10^{x/M}) }
+\end{equation}
+Where x is from
+\begin{equation}
+    P_{fa} = 10^{-x}
+\end{equation}
+These approximations are best for linear and log detectors. The simplest approximation is 
+\begin{equation}
+    L_{CFAR} \approx P_{fa}^{-1/2M}
+\end{equation}
+To complete the loss table, we need to add processor and detection loss. For the L-Band radar, we assume it uses Hamming weighting and LFM pulses to reduce sidelobe range. The samples are assumed to be one cell apart, and has the ability to use MTI processing. The radar uses CA-CFAR with a window of 18 cells, and desired $P_{fa}$ is $10^{-6}$. The S band also uses Hamming weighting, but uses a staggered PRI waveform. This uses GOCFAR and the $P_{fa}$ is $10^{-8}$, and uses and window cell of 22 cells. Radar in the X band, use phase coded waveforms and pulsed doppler signal processor. This radar band uses Chebyshev weighting with a $P_{fa}$ of $10^{-8}$, and uses GO-CFAR with 32 cells. This book does not provide an exhaustive list of losses used in radar, and is meant as a introduction. 
+
+% Chapter 6
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Chapter 6 Summary}
+Chapter 6 is about the theory behind radar range detection, specifically for signal returns from single pulse radar. These formula for signal detection is known as single pulse, single sample, or single hit detection probabilities. Much of this work is based off of early work by Stephen Oswald Rice and Peter Swerling, and many other researchers. The equations introduced here share many common parameters which will be described here. $P_d$ represents the single pulse detection probability, $SNR$ is the single-pulse signal to noise ratio, $P_{fa}$ is the probability of false alarm, $Q_1$ is the Marcum Q-Function, $TNR$ is the threshold to noise ratio, $I_0$ is the Bessel function of the first kind and zero order, $S=\sqrt{2 P_{S}}$ is the amplitude of the return signal for SW5/SW0 targets, $P_S$ is the signal power, $\sigma^2$, and finally $U(x)$ is the unit step function. To better understand how these detection probability equations are constructed, we need to understand the characteristics of the noise signal, the target signal, and the target-plus-noise signal. 
+To begin understanding Noise in the radar receiver, we can look at the two most common types of receiver implementations. The first is called IF representation, here the matched filter is implemented at intermediate frequency (IF). The other configuration is called baseband representation, in this type the signal is converted to a baseband signal, or a complex signal centered at a frequency of 0. IF configuration is common in older radar models, while baseband is more modern. Both utilize matched filters which is the signal processor where the radar is based from a single pulse. This matched filter is vital, as it maximizes SNR a necessary step for maximizing detection probability. 
+A important note here is there are many mathematical derivations which I will again skip over to keep this summary brief. If you would like to see all of the associated mathematics, please view the original source text. 
+The noise properties of both the IF and baseband representations, are the same. The means that the detection and false alarm probabilities for each method are the same. This also means that the overall detection and false alarm probability equations apply to either receiver configuration. 
+Three different signal representations are made for various targets, one for SW0/SW5 targets, another for SW1/SW2 targets, and another for SW3/SW4 targets. All will be treated as random process models for consistency. The difference between the targets, is how RCS varies with time. With SW1 and SW3 the RCS is constant during pulses, but varies from scan to scan. With SW2 and SW4 the RCS varies from pulse to pulse. It is assumed that the RCS does not vary during PRI for all targets. The reason SW1 and SW2 are grouped together, as well as SW3 and SW4 is because the statistics will be the same for these groups during one pulse. This process makes some base assumptions about signal and noise properties, which are reasonable to make due to the fact that radars are generally designed to fulfill these assumptions. For the case of SW0/SW5 case, the assumption is made that the RCS is constant, along with the target power, and target signal amplitude. 
+The detection process consists of an amplitude detector and a threshold device. The amplitude detector is responsible for determining the magnitude of the signal coming from the matched filter, and the threshold device determines if that signal magnitude is above some threshold and sends a detection declaration. If that magnitude falls beneath a threshold no declaration is made. The amplitude detector can be square-law or linear. In the IF implementation, the detector is a diode followed by a lowpass filter. If the signal region uses low voltage levels it will result in a square-law detector, if the voltage is high the detector will be linear. In the case of baseband implementation, the digital hardware forms the square of the magnitude from the receiver filter by squaring the real and imaginary components and adding them together. In some cases, the detector will perform a square root to form the magnitude. In either case when only noise is present and the filter output and the signal plus noise is output from the filter, the square law detector is output. If the signal plus noise is greater than or equal to the threshold, detection occurs. If the signal and noise is less than the threshold, detection is missed. If the noise is greater than or equal to the threshold a false alarm occurs. If the noise is less than the threshold there is no false alarm. Ideally the system either detects, or sends no false alarm, since we only want to detect targets that are present. The probability of successful detection is called detection probability, while the chance of a false alarm is called the false alarm probability.  To determine these probabilities, we can use the formulas outlined in the chart below. 
+\begin{center}
+    \begin{tabular}{p{4cm} p{10cm}} 
+    \hline
+    Target Type & $P_d / P_{fa} Equation$ \\
+    \hline \\
+    SW0/SW5 & $P_d = Q_q (\sqrt{2(SNR)}, \sqrt{-2 ln P_{fa}})$ \\ \\
+    SW1/SW2 & $P_d = exp( \frac{ln P_{fa}}{SNR+1} ) $\\ \\ 
+    SW3/SW4 & $P_d = \left[ 1-\frac{2(SNR)ln P_{fa}}{2 + SNR}  \right] e^{2ln P_{fa} / (2 + SNR)}$ \\ \\
+    Noise & $P_{fa} = e^{-TNR}$ \\ \\
+    \hline
+    Target Type & Signal-Plus-Noise/Noise Density Function \\
+    \hline\\
+    SW0/SW5 & $f_V (V) = \frac{V}{\sigma^2} I_0 (\frac{VS}{\sigma^2}) e^{-(V^2+S^2)/2 \sigma^2} U(V)$ \\ \\
+    SW1/SW2 & $f_V (V) = \frac{V}{P_S + \sigma^2} e^{-V^2 / 2 (P_S + \sigma^2)} U(V) $ \\ \\
+    SW3/SW4 & $f_V (V) = \frac{2V}{(2\sigma^2 + P_S)^2} \left[ 2\sigma^2 + \frac{P_S V^2}{(2\sigma^2 + P_S)} \right] e^{-V^2/(2\sigma^2 + P_S)} U(V)$ \\ \\
+    Noise & $f_N (N) = \frac{N}{\sigma^2} e^{-N/2\sigma^2} U(N)$ \\ \\
+    \hline
+    \end{tabular}
+\end{center}
+Generally speaking the probability detection is largest for SW0/SW5 while SW1/SW2 has the lowest. For SW1 and SW2 the RCS fluctuates considerably, which means both the RCS and the noise will affect the threshold crossing. It is assumed that SW3/SW4 consists of a main scatterer with several smaller scatterers, so the RCS also fluctuates but not to the same extent of SW1/SW2. Generally probability detection assumes that the hardware operates using continuous time signals, though many modern radars use discrete time by sampling or analog to digital converters. For discrete systems we can determine the probability of false alarms by dividing 1 by the number of false alarm chances. Typically radar samples return signals from each pulse with a period set to the range resolution. These range samples are taken over a instrumented range $\Delta T$. In search radar this will be slightly less than the PRI. For tracking radar, it is significantly less than PRI (T). We can determine the number of range samples per PRI using the following formula
+\begin{equation}
+    N_R = \frac{\Delta T}{\tau_{\Delta R}}
+\end{equation}
+To determine the number of pulses over a time period of $T_{fa}$, we can use the formula 
+\begin{equation}
+    N_{pulse} = \frac{T_{fa}}{T}
+\end{equation}
+Using these equations we can determine that the number of range samples over a time period using the formula
+\begin{equation}
+    N_{fa} = N_R N_{pulse}
+\end{equation}
+Some radars contain several doppler channels, $N_{Dop}$, and may contain amplitude detectors. Keeping this in mind, we can determine the number of range samples in a time period using the following formula
+\begin{equation}
+    N_{fa} = N_R N_{pulse} N_{Dop}
+\end{equation}
+The authors then go on to give several examples using the formulas listed above, with a series of parameters. 
+
+% Chapter 7
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Chapter 7 Summary}
+Chapter 7 is about matched filters for radar systems. Matched filters are are sometimes used before the signal processor, and others are in the signal processor but they are used to maximize SNR. Given a signal $s(t)$ and noise $n(t)$ we find a signal response $h(t)$ that maximize SNR. It is assumed that the form of the signal is deterministic and the amplitude and phase are random variables. If the matched filter $s(t)$ is input, the output will be $s_o(t)$, and if the input is $n(t)$, the output will be $n_o(t)$. Using these variables, we can determine the instant normalized signal power using the following formula
+\begin{equation}
+    P_{so} (t) = |s_o (t)^2 | = s_o (t) s_o^*(t)
+\end{equation}
+We can determine the normalized peak signal power at the matched filter output using the formula 
+\begin{equation}
+    P_s = P_{so}(t) = max_t P_{so}(t_o) = |s_o(t_o)|^2 
+\end{equation}
+Since the output of the matched filter is a random process we work with its average power. We can compute the normalized average noise power of this output using the formula
+\begin{equation}
+    P_N = E \{ |n_o (t)|^2 \} 
+\end{equation}
+where we use the expected value of E{x} because we are dealing with random processes. Finally we can define the design criterion for the matched filter, specifically using a filter to maximize the ratio of peak signal power to average noise power using the equation
+\begin{equation}
+    h(t):max_{h(t)} \frac{P_S}{P_N}
+\end{equation}
+The output of the matched filter is a ratio of peak signal power to average noise power which is going to match the SNR that was obtained from the radar range equation. The matched filters role is to find the maximum SNR from the signal and noise, if there is interference in the form of white noise, the SNR will always be maximized by the matched filter. In the event that interference comes from other sources than white noise, other filters must be used which find the signal to interference ratio (SIR). Again this filter only applies to single-pulse radar, and this equation will change when handling multiple pulses. The final equation for determining the maximum SNR from the matched filter Is
+\begin{equation}
+    SNR_{max} = \frac{E_s}{kT_s G} = \frac{P_T G_T G_R \lambda^2 \sigma \tau_p}{ (4\pi)^3 R^4 k T_s L }
+\end{equation}
+The authors then go on to give specific examples of using the matched filter to solve for the filter response. In the first example they show how to solve when using an unmodulated pulse using this formula
+\begin{equation}
+    s_o(t) = A^2 (\tau_p - |t|) rect \left[ \frac{1}{2\tau_p} \right]
+\end{equation}
+and in the second they show how to solve for a pulse with LFM which uses this formula 
+\begin{equation}
+    |s_o(t)| = A^2 (\tau_p - |t|) |sinc \left[\alpha t(\tau_p-|t|) \right]| rect \left[ \frac{1}{2\tau_p} \right]
+\end{equation}
+In conclusion the formula for a matched filter for a signal s(t) is
+\begin{equation}
+    h(t) = Ks^* (t_o -t)
+\end{equation}
+where K and $t_o$ are arbitrary numbers. It is important to note that the filters impulse response is reverse impulse response of the waveform that the filter is attached to for analysis. Radar does not generate ideal pulses, and even if it could, they would become distorted as the pulse propagates to the target and back to the receiver. But most of the time this change from the rectangular pulse shape will not drastically affect the shaped of the matched filters response. When deriving the matched filter equation it is good practice to keep in mind variability  in the transmitter, environment, antenna, target, and receiver since all of these will play a role in how the radar system behaves. It is often common to include a matched filter mismatch term to the radar equation to account for this variability from the matched filter. Often there is also time delay from the filter which is accounted for during the radar calibration. Some radar designers/engineers will purposefully use filters that do not match the transmit pulse to reduce range sidelobes, because they are concerned with interference and are willing to accept the loss in SNR. Other radar systems that use analog processing may use a narrowband filter instead of a matched filter, to minimize some noise power. Other times matched filters will be implemented with piezo-electric transducers at the inputs and outputs. In digital radar systems, matched filters can be implemented using fast convolvers or other processing methods. 
+
+% Chapter 8
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Chapter 8 Summary}
+Chapter 7 discussed calculating detection probability for single pulse radar and showed that matched filters provide maximum $P_d$ and SNR. Chapter 8 is about how we can improve that detection probability, using the following techniques: coherent integration, noncoherent integration, m-of-n detection, and cumulative probability. Coherent integration has existed since radar's early days. Using this technique a coherent integrator, which is a type of signal processor, is inserted between the matched filter and amplitude detector. This device adds signal returns for N pulses, and after accumulating this pulse sum, a threshold check and amplitude detection occurs. To calculate this sum the integrator returns samples from each transmission pulse at a equal spacing to the range resolution. In more modern phase-based radars using digital signal processing, the summation is performed by filters or integrate-and-quench circuits similar to ones found in communications receivers. To better understand how this can improve SNR it is assumed the complex amplitude of the signal on pulse $k$ at the matched filter is defined by
+\begin{equation}
+    s(k) = S e^{j \theta}
+\end{equation}
+where $ S>0 $ is the signals amplitude and $\theta$ is the phase. It is also assumed that this calculation is for one of the many samples that the target returns, and the timing matches the matched range. It is further assumed that this is being applied to SW0, SW1, SW3, or SW5 targets, as coherent integration provides no benefit for SW2 and SW4. It is also assumed that there are no objects in the environment that would cause the amplitude to vary across the pulses. The antenna beam must be stationary and the frequency must be constant. All parameters of the radar must be constant, and the environment must not change. There is no Doppler on the target return using Coherent Integration, if the target were moving then it would have a Doppler. If a doppler is found it must be removed by the integrator before the summation calculation. In digital processors this is completed by the FFT. In analog systems, this signal is passed through bandpass filters set to various doppler frequencies or by mixers before the integrate and quench circuits. If we are summing over N pulses the output of the summer is:
+\begin{equation}
+    s_{out} = \sum_{k=1}^{n} s(k) = nSe^{j \theta}
+\end{equation}
+
+The signal power at the input to the summer is 
+\begin{equation}
+    P_{sin} = S^2 = P_S
+\end{equation}
+and the signal power at the output is 
+\begin{equation}
+    P_{sout} = n^2S^2 = N^2 P_S
+\end{equation}
+In these equations $P_S$ is the single-pulse signal power from the radar range equation. The noise can be calculated using this equation
+\begin{equation}
+    n(k) = \frac{1}{\sqrt{2}} [ \textbf{n}_i (k) + j \textbf{n}_q (k) ]
+\end{equation}
+Here it is assumed $\textbf{n}_i(k)$ and $\textbf{n}_q(k)$ are wide sense stationary (WSS), zero mean, and independent. They each have a variance of $\sigma^2$, and are Gaussian. The formula to sum over the N pulses and calculate noise at the output is 
+\begin{equation}
+    n_{out} = \sum_{k=1}^{n} \textbf{n}(k)= \frac{1}{\sqrt{2}} \left[ \sum_{k=1}^{n} \textbf{n}_I(k) + j 
+    \sum_{k=1}^{n} \textbf{n}_Q (k)\right] = \textbf{n}_{outI} + j \textbf{n}_{outQ}
+\end{equation}
+The noise power is 
+\begin{equation}
+    P_{nout} = E \{ \textbf{n}_{out}  \textbf{n}_{out}^* \} = E = \{ \textbf{n}^2_{outI} \} + \{ \textbf{n}^2_{outQ} \}
+\end{equation}
+There are also formulas to calculate other aspects of this formula.
+\begin{equation}
+    E \{ \textbf{n}^2_{outI} \} = \frac{1}{2} \sum_{k=1}^{n} E\{ \textbf{n}^2_I (k)\} + \frac{1}{2} \sum_{l, k \in [1,n] k \neq 1} E \{ \textbf(n)_I (k) \textbf{n}_I {l} \}
+\end{equation}
+\begin{equation}
+    E \{ \textbf{n}^2_{I} {k}\} = \sigma^2 \forall k 
+\end{equation}
+\begin{equation}
+    E \{ \textbf{n}_{I} (k) \textbf{n}_I (l) = 0 \forall k \neq 1
+\end{equation}Z
+Using these formulas we can determine that 
+\begin{equation}
+    E \{ \textbf{n}^2_{outI} = \frac{n \sigma^2}{2} = \frac{n P_{nin}}{2} 
+\end{equation}
+and using the same reasoning, $P_{nin}$is the noise power at the output of the matched filter
+\begin{equation}
+    E \{ \textbf{n}^2_{outQ} = \frac{n \sigma^2}{2} = \frac{n P_{nin}}{2} 
+\end{equation}
+\begin{equation}
+    P_{nout} = E\{ \textbf{n}^2_{outI} \} + E\{ \textbf{n}^2_{outI} \} = P_{nin}
+\end{equation}
+By combining several of the equations listed above, we find that the output of a coherent integrator is or is equal to n times the SNR of the output at the matched filter. This provides us with a SNR gain or increase of N. 
+\begin{equation}
+    SNR_{out} = \frac{n^2 P_s}{nP_{min}} = n(SNR)
+\end{equation}
+For the SW2 and SW4 targets, we would use the following formula
+\begin{equation}
+    s_{out} = \sum_{k=1}^{n} \textbf{s}(k) = \frac{1}{\sqrt{2}} \left[ \sum_{k=1}^{n} \textbf{s}_I (k) + \sum_{k=1}^{n} \textbf{s}_Q (k) \right] = \textbf{s}_{outI} + j \textbf{s}_{outQ}
+\end{equation}
+We can also determine that 
+\begin{equation}
+    E\{\textbf{s}^2_{outI} \} = E \{ \textbf{s}^2_{outQ}\} = \frac{nP_S}{2}
+\end{equation}
+\begin{equation}
+    P_{sout} = E\{\textbf{s}^2_{outI} \} + E\{\textbf{s}^2_{outQ} \} = n P_S
+\end{equation}
+Which leads to 
+\begin{equation}
+    SNR_{out} = \frac{p_{sout}}{p_{nout}} = \frac{nP_S}{nP_{nin}} 
+\end{equation}
+To compute the detection probability, we need to consider the density form of the noise and signal plus noise. To calculate it for noise we use the formula
+\begin{equation}
+    \frac{1}{\sqrt{2}} \left[ \sum_{k=1}^{n} \textbf{n}_I(k) + j \sum_{k=1}^{n} \textbf{n}_Q(k) \right] = \textbf{n}_{outI} + j \textbf{n}_{outQ}
+\end{equation}
+We have already made assumptions about $\textbf{n}_I (k)$ and $\textbf{n}_Q (k)$. We can also infer that $\textbf{n}_{outI}$ and ${outQ}$ are zero-mean Gaussian variables with a variance of $n\sigma^2/2$ and are independent. This means the density of the noise magnitude $\textbf{N}_{out}$, at the detectors output will be in the form of $P_{fa}$. These equations are
+\begin{equation}
+    f_N (N) = \frac{N}{\sigma^2} e^{-N^2/2n\sigma^2} U(N)
+\end{equation}
+and 
+\begin{equation}
+    P_{fa} = e^-T^2/2n\sigma^2 = e^{-TNR}
+\end{equation}
+where TNR is the threshold to noise ratio. To calculate density for the signal and noise, for SW0 and SW5 targets we  use this formula
+\begin{equation}
+    \textbf{v}_{out} = \frac{1}{\sqrt{2}} \left[\sum_{k=1}^{n} \textbf{v}_I (k) + j \sum_{k=1}^{n} \textbf{v}_Q (k) \right] = \textbf{v}_{outI} + j \textbf{v}_{outQ}
+\end{equation}
+where $\textbf{v}_I(k)$ and $\textbf{v}_Q(k)$ are Gaussian, independent variables with variance of $\sigma^2$. $\textbf{v}_{outI}$ and $\textbf{v}_{outQ}$ are also Gaussian independent variables with a variance of $n\sigma^2$. This means that the density of the signal plus noise magnitude or $\textbf{v}_{out}$ at the detector output is calculated with the following formula:
+\begin{equation}
+    SNR_{out} = \frac{(nS)^2}{2n \sigma^2} = n(SNR)
+\end{equation}
+where SNR is the signal to noise ratio as shown in the radar range equation. 
+\begin{equation}
+    P_d = Q_1 ( \sqrt{2n(SNR)}, \sqrt{-2 ln P_{fa}})
+\end{equation}
+For SW1 and SW3 targets, the signal amplitude $S$ and phase $\theta$ are constant across n pulses. The amplitude of the group of pulses is governed by the fluctuation density. The phase of the group of pulses is a uniform probability density function, which means that for n pulses the signal plus noise is the same as SW0 and SW5 targets. This means we can calculate for the magnitude of $\textbf{v}_{out}$  for the SW1 target using this formula
+\begin{equation}
+    f_v (V) = \frac{V}{n^2 P_S + n \sigma^2} e ^{-v^2/2(n^2 P_s + n \sigma^2)} U(V)
+\end{equation}
+and the SW3 target using this formula
+\begin{equation}
+    f_v (V) = \frac{2V}{(2n^2 \sigma^2 + n^2 P_S)^2} \left[ 2n\sigma^2 + \frac{n^2 P_S V^2}{(2 n \sigma^2 + n^2 P_S)} \right] e ^{-v^2/2(n^2 \sigma^2 + n^2 P_s )} 
+\end{equation}
+By using integration we can prove that these formulas can match our previous results by swapping $SNR$ for $nSNR$. For SW1 targets this formula Is
+\begin{equation}
+    P_d = exp \left( \frac{ln P_{fa}}{n(SNR)+1} \right)
+\end{equation}
+and for SW3 targets this is 
+\begin{equation}
+    P_d = \left( 1 - \frac{2n (SNR) ln P_{fa}}{ \left[ 2 + n(SNR)\right] ^2} \right) e^{2 ln P_{fa} / \left[2 + n(SNR) \right]}
+\end{equation}
+For a SW2 target, the signal plus noise is independent from the pulses. $\textbf{v}_{I}(k)$ and $\textbf{v}_{Q}(k)$ sums are zero mean and Gaussian with a variance of $P_s + \sigma^2$. The sums of each are also zero mean and Gaussian but the variance is $n(P_S + \sigma^2)$. From this we can determine that the magnitude $v_{out}$ has the following density
+\begin{equation}
+   f_v(V) = \frac{V}{n(P_S + \sigma^2)} e^{-V^{2/2n(P_S + \sigma^2)}} U(V)
+\end{equation}
+By performing integration we can see that the coherent integrator does not improve our detection probability. Calculating this for SW4 targets is not as simple as SW2 because SW4 is not Gaussian. That means we cannot find the density functions for the SW4 targets, and because of this we have no way of improving the detection probability. During this process a lot of assumptions are made that are not always accurate. For example the target amplitude is not likely to stay constant, so it is accounted for by using range straddling loss. If a doppler frequency is introduced and is large enough to cause variation, it is likely the coherent integrator will cause a decrease in SNR. This can be fixed by using FFTs or band pass filters. Due to a nonzero range rate, the target signal will move which can also decrease SNR. This can be combated by determining a small SNR reduction, and is easier for tracking radar and difficult for search radar. The fact that this radar will be using a beam also degrades SNR because the scanning causes $G_T$ and $G_R$, and is accounted for with beam shape loss.
+The authors then go on to talk about post-detection integration or noncoherent integration, which is a device that is placed after amplitude or square law detector. The term noncoherent integration refers to the fact that the signal has undergone some transformation of amplitude and phase data is lost. They are implemented by displays integrating compatibility with people, or uses of m-of-n detector which is a logic circuit. The radar examines the output of the threshold device for the N pulses. If a pulse detection occurs on any m or more of those pulses, the radar declares target detection. This can also be called a dual threshold detector or a binary integrator. There is a third type of noncoherent integrator implemented as a summer, in older radars taking the form of a low pass filter. In newer radar, they are implemented with special hardware or the radar computer as a digital summer. Noncoherent integrators sample a return from each of the n pulses at a spacing equal to the range resolution. For SW0, SW5, SW1, and SW3 targets the advantage is simplicity. The process of using coherent integrators is a lot of physical hardware increasing complexity and cost. The number of integrators is reduced due to the fact that noncoherent integrators do not need to support multiple doppler frequencies. For SW2 and SW4 targets noncoherent integrators can degrade detection probability relative to a single pulse. The sum of the outputs from multiple pulses will not be Gaussian, the density function is actually quite complicated as is the implementation of noncoherent integrators. A equation for n pulsed noncoherent integrators is 
+\begin{equation}
+    P_{fa} = 1 - \Gamma(n, TNR)
+\end{equation}
+where $\Gamma(n,TNR)$ is the gamma function defined By
+\begin{equation}
+    \Gamma(a,x) = \frac{1}{\Gamma(a)} \int_{0}^{x}  e^{-t} t^{a-1} dt
+\end{equation}
+For a = n when n is a positive integer, $\Gamma(n)$ becomes a factorial calculation
+\begin{equation}
+    \Gamma(n) = (n-1)! = (n-1)(n-2) ... * 2 * 1
+\end{equation}
+Many software packages support the inverse incomplete gamma function for finding $TNR$ for a given $P_{fa}$
+\begin{equation}
+    TNR = \Gamma^-1 (n, 1-P_{fa})
+\end{equation}
+where $\Gamma^{-1}(n, 1-P_{fa})$ is the inverse of the incomplete gamma function. The detection probability for the five target types are calculated in the following ways. First, for SW0 and SW5
+\begin{equation}
+    \begin{split}
+    P_d & = Q_1 \Gamma^{-1} \left( \sqrt{2n(SNR)}, \sqrt{2(TNR)} \right) + e^{-TNR-n(SNR)} \sum_{r=2}^{n} \left( \frac{TNR}{n(SNR)}\right)^{(r-1)/2} \\
+    & I_{r-1} (2 \sqrt{(TNR)n(SNR)})
+    \end{split}
+\end{equation}
+
+For SW1,
+\begin{equation}
+    \begin{split}
+    P_d & = 1- \Gamma(n-1, TNR) + (1 + \frac{1}{n(SNR)})^{n-1} \Gamma \left( n-1, \frac{TNR}{1+1/\left[ n(SNR) \right]} \right) \\
+    & e^{-TNR/\left[1+n(SNR)\right]}
+    \end{split}
+\end{equation}
+
+For SW2,
+\begin{equation}
+    P_d = 1 = \Gamma\left(n, \frac{TNR}{1+SNR}\right)
+\end{equation}
+
+For SW3,
+\begin{equation}
+    P_d \approx \left(1+\frac{2}{n(SNR)}\right)^{n-2} \left[1+\frac{TNR}{1+n(SNR)/2}-\frac{2(n-2)}{n(SNR)}\right] e^{-TNR/\left[1+n(SNR)/2\right]}
+\end{equation}
+
+For SW4,
+\begin{equation}
+    P_d = 1 - \frac{SNR}{SNR+2}^n \sum_{k=0}^{n} \frac{n!}{k!(n-k)!} \left( \frac{SNR}{2} \right)^{-k} \Gamma\left( 2n-k, \frac{2TNR}{SNR+2}\right)
+\end{equation}
+
+TNR is the threshold to noise ratio, $Q_1$ is the Marcum Q function, $I_r(X)$ is the modified Bessel function of the first kind with order of r. $\Gamma(a,x)$ is the incomplete gamma function mentioned earlier. The SNR in the equations is assumed to be for single pulse as defined by the radar range equation. There is a universal equation for all radar types with the following equation
+\begin{equation}
+    P_d = K_m\left( 2 \left[ \frac{TNR-n+n_e}{(n/n_e)(SNR)-1} \right], 2n_e \right)
+\end{equation}
+where
+\begin{equation}
+    K_m (2x, 2k) = 1-\Gamma(k, x)
+\end{equation}
+$n_e$, a integer, is the number of degrees of freedom associated with Swerling target types. This comes from his definition of these targets, or the fluctuation models. For SW1 this is 1, for SW2 its n, for SW3 its 2, and for SW4 its 2n, where n is the number of pulses. There is also a universal equation for determining the single pulse SNR to give a desired $P_d$, which has the formula
+\begin{equation}
+    SNR = \left[ \frac{2(TNR)-2(n-ne)}{K_{m}^{-1} (P_d, 2N_e)}-1 \right] \left( \frac{n_e}{n} \right)
+\end{equation}
+where
+\begin{equation}
+    K_{m}^{-1}(x,2k)=2\Gamma^{-1}(k,(1-x))
+\end{equation}
+and $\Gamma^{-1}(k,z)$ is the inverse of the complete gamma function.
+These universal equations are proved to be accurate with detection probability being 0.2 higher and $P_{fa}$ less than $10^{-4}$. These universal equations are not recommended for SW0 and SW5 targets, but an approixmation of this is 
+\begin{equation}
+    P_d (S, P_{fa}, n)=Q \left[ Q^{-1} (P_{fa} - \sqrt(\frac{2nS^2}{S+2.3}))\right] 
+\end{equation}
+and 
+\begin{equation}
+    S_d(P_d, P_{fa}, n) = \frac{S_1(P_d, P_{fa})}{2n} \left[ 1+\frac{9.2n}{S_1(P_d, P_{fa})}\right]
+\end{equation}
+where 
+\begin{equation}
+    S_1(P_d, P_{fa}) = \frac{1}{2}\left[ Q^-1 (P_{fa}) - Q^{-1} (P_d)\right]^2 
+\end{equation}
+and 
+\begin{equation}
+    Q(x)=\frac{1}{\sqrt{2\Pi}} \int_{x}^{\infty} e^{-t^2/2} dt=\frac{1}{2}erfc\left(\frac{x}{\sqrt{2}}\right)
+\end{equation}
+erfc(x) is the error function, and $Q^{-1}(x)$ is its inverse. Both are often in software packages. The authors then go on to give two examples of these formulas in use. The author then goes on to discuss Cumulative Detection Probability, which increases detection probability by using multiple attempts. If the detection fails multiple times, the overall detection probability can be increased. This is done using probability theory. We have N detection events and they are independent, which limits our detection options and should use them only on a scan to scan basis. If the detection probability on each detection attempt is $P_{dk}$, we can then calculate the probability of detecting at least one target using this formula.
+\begin{equation}
+    P_{dcum} = 1 - \prod_{k=1}^{N} \left( 1-P_{dk}\right)
+\end{equation}
+where $P_{dcum}$ is the cumulative detection probability over N tries. The use of this cumulative technique increases the false alarm rate probability, which can be expressed as:
+\begin{equation}
+    P_{facum} = 1 - \prod_{k=1}^{N} \left( 1-P_{fak}\right)
+\end{equation}
+There is usually the case that $P_{fak} = P_{fa} \forall k \in [1,N]$ and write
+\begin{equation}
+    P_{facum} = 1 - (1-P_{fa})^n
+\end{equation}
+We can also assume
+\begin{equation}
+    P_{facum} \approx NP_{fa}
+\end{equation}
+When using cumulative concepts, we should compute the detection probabilities using $P_{fak} = P_{facum}/N$ where $P_{facum}$ is the desired false alarm probability. It should be noted that if the radar SNR falls below 10 to 13 dB, the radar may not be able to track the target. The probability detections should not ball below 0.5. The author then goes on to give an example, then begins the discussion of M of N detection. This can be thought of like a cumulative detection, but instead of having n tries, there is m or more detections on n tries. This generally operates on target returns closely spaced in time, and cannot assume independent detection events, or that the detection probability will be the same on each attempt ($P_{dk} = P_d$). For SW0, SW5, SW2, and SW4 targets, it is assumed detection events are independent. The randomness for SW0 and SW5 targets is due to noise since the signal amplitude is constant. Thus, the detection events are independent just as the noise is. For SW1 and SW3 targets, the signal amplitude is also constant, but it is not known and is a random variable. To accommodate that being random, we will assume a known constant and form a weighted average across all possible amplitudes using this equation:
+\begin{equation}
+    P_{mofn} = \int_{-\infty}^{\infty} P_{mofn0} (S) f_s (S) dS
+\end{equation}
+where $P_{mofn}(S)$ is the m of n detection probability for a given amplitude and $f_s(S)$ is the amplitude density function. Once the signal amplitude is fixed, the signal plus noise is the same density function as the SW0 and SW5 target. If $D_k$ is a detection event on a given try, the event on m of n tries can be determined by 
+\begin{equation}
+    D_{mn} = \left( \cap_{m}^{} D_k \right) \cap \left(  \cap_{n-m} \overline{\rm D}_k\right)
+\end{equation}
+where $\cap$ is an intersection. The first term describes m detection events, and the second term is n-m events of missed detection. The author then gives an example and walks through the math. The probability of obtaining detections is 
+\begin{equation}
+    D_{mofn} = D_{mn} \cup D_{(m+1)n} \cup D_{(m+2)n} ... \cup D_{mn}
+\end{equation}
+From this we can determine that
+\begin{equation}
+    P(D_{mofn}) = \sum_{k=m}^{n} P(D_{kn})
+\end{equation}
+or 
+\begin{equation}
+    P_{mofn} = \sum_{k=m}^{n} P_{kn}
+\end{equation}
+Using a little bit of substitution we can determine a final formula ofUsing a little bit of substitution we can determine a final formula of
+\begin{equation}
+    P_{mofn} = \sum_{k=m}^{n} \frac{n!}{k!(n-k)!} P_d^k (1-P_d)^{n-k}
+\end{equation}
+The equation for SW1 and SW3 targets is this equation
+\begin{equation}
+    P_{mofn} = \int_{\infty}^{\infty} P_{mofn0} (S) f_s (S) dS
+\end{equation}
+The density function for signal amplitude for a SW1 target Is
+\begin{equation}
+    f_s(S) = \frac{S}{P_s}e^{-s^2/2P_s} U(S)
+\end{equation}
+and for a SW3 target is
+\begin{equation}
+    f_s(S) = \frac{2S^3}{P^2_s}e^{-s^2/2P_s} U(S)
+\end{equation}
+The authors then provide several different substitution steps for computing this directly. To handle false alarm probability, the following formula is used
+\begin{equation}
+    P_{famofn} = \sum_{k-m}^{n} \frac{n!}{k!(n-k!)} P_{fa}^k (1-P_{fa})^{n-k}
+\end{equation}
+Since the false alarm rate is generally a requirement, we solve for $P_{fa}$. We start with an initial guess that is larger than $(P_{fa})^{m+1}$ by several orders of magnitude. We can also replace $1-P_{fa})^{n-k}$ with one since it is much larger than the other terms. This leads us to the first approximation
+\begin{equation}
+    P_{famofn} \approx \frac{n!}{m!(n-m)!} P_{fa}^{m}
+\end{equation}
+The author then gives an example of this in action. It is assumed that m-of-n detector is operating on a single pulse detections, but it can follow a coherent or noncoherent integrator is restricted properly. The signal plus noise samples must be independent, as well as all other noise samples. It is likely that the $P_{dk}$ will not be the same on all scans. The author then goes on to give an example of the n of m detector being used. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Chapter 9 Summary}
+Chapter 9 is about the ambiguity function, which is denoted as $|x(T, f)|^2$ and is used to understand how the signal processor responds to a signal. This function has two independent variables time and frequency. Time is usually associated with the range of the target, while frequency is reference to Doppler. The ambiguity function is like a response from the signal processor to a receiving radar waveform. The normalized transmitted waveform $u(t)$, the signal from a target at range $R$ and the range rate $\dot{R}$ is given by 
+\begin{equation}
+    v_R(t) = u(t-\tau_R) e^{j2\pi f_d t}
+\end{equation}
+
+where $\tau_r$ is the range delay, and $f_d$ is the target doppler frequency, $\lambda$ is the wavelength of the signal, and $c$ is the speed of light. The signal process that this ambiguity function is calculated for is a low pass function $h(t)$ with a frequency of $f_s$. Normally this is defined as 
+\begin{equation}
+    h(t) = Kv^* (t_0 -t)
+\end{equation}
+with $K=1$ and $t_0 = 0$, and the superscript * represents a complex conjugate. 
+\begin{equation}
+    h(t) = v^* (-t)
+\end{equation} 
+Using this formula, we can determine the impulse response of the processor to be
+\begin{equation}
+    h_{SP} = e^{j2 \pi f_s t} h(t) = e^{j2 \pi f_s t} v^* (-t)
+\end{equation}
+the output of the signal processor is a convolution of $h_{SP}(t)$ and $v_R(t)$. Using some mathematical substitutions, a slight changing of variables we can determine the final solution to the ambiguity function. In this function $\tau$ and $f$ are generally called the mismatched range and doppler frequency of the ambiguity function. The final formula for the ambiguity function is 
+\begin{equation}
+    | x(\tau, f)|^2 = | \int_{-\infty}^{\infty} u(t) v^* (t+\tau) e^{j2 \pi ft} dt | ^2
+\end{equation}
+If $f=0$ to yield $|x(\tau, f|^2$ , we have a matched doppler, range cut ambiguity function. If $\tau=0$ to yield $|x(0, f|^2$ , we have a matched doppler range, doppler cut ambiguity function. The author then goes on to provide detailed examples for a unmodulated pulse and a LFM pulse. The author then goes on to disucss numerical techniques for calculating the ambiguity function on more complex signal processors, that relies of FFT algorithms. Here the ambiguity function is a sequence of range cuts which can be interpreted as 
+\begin{equation}
+    x(\tau, f) = \int_{-\infty}^{\infty} u(t)v^*(t+\tau)e^{j2 \pi ft} dt = [u(\tau)e^{j2 \pi f \tau}] \otimes v(t)
+\end{equation}
+using the Fourier transform theory, we can determine 
+\begin{equation}
+    \tau \{ x(\tau, f) \} = \tau \{ u(\tau) e^{j2\pi ft} \} \tau^* \{v(t)\}
+\end{equation}
+or
+\begin{equation}
+    F_x (\theta) = F_u (\theta) F_V^* (\theta)
+\end{equation}
+This is used with FFT to approximate these transformations, then perform multiplication and use inverse FFT to determine $X(\tau, f)$ for values $f=f_k$. To perform this calculating we assume $u(t)$ is the base band signal, and $v(t)$ is the signal where the filter is matched. We then use the algorithm defined by the author, this algorithm is quite long and detailed so I think it would be best to reference it from the text directly rather than by summarizing it myself. This algorithm can be found in \cite{BRA} on pages 260 and 261.
+
+
+
+
+% Bibliography / Sources Cited 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\begin{thebibliography}{9}
+    \bibitem{BRA} M.C. Budge and S.R. German \textit{Basic Radar Analysis}. Norwood, MA: Artech House, 2015.
+\end{thebibliography}
+
+% Appendix A
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{Appendix A: Charts}
+Radars operate in the radio frequency band on the electromagnetic spectrum. The table below shows the waveband specifications as defined by the U.S. Institute of Electrical and Electronics Engineers (IEEE).
+\begin{center}
+    \begin{tabular}{ |c|c|c| }
+        \hline
+            Band Name & Lower Frequency & Higher Frequency \\
+        \hline
+        \hline
+            HF & 3 MHz & 30 MHz \\
+            VHF & 30 MHz & 300 MHz \\
+            UHF & 300 MHz & 1000 MHz \\
+            L & 1 GHz & 2 GHz \\
+            S & 2 GHz & 4 GHz \\
+            C & 4 GHz & 8 GHz \\
+            X & 8 GHz & 12 GHz \\
+            Ku & 12 GHz & 18 GHz \\
+            K & 18 GHz & 27 GHz \\
+            Ka & 27 GHz & 40 GHz \\
+            V & 40 GHz & 75 GHz \\
+            W & 75 GHz & 110 GHz \\
+            mm & 110 GHz & 300 GHz \\
+        \hline
+    \end{tabular}
+\end{center}
+
+Here is a chart containing many components in radar systems and the typical representative loss of each component measure in decibels. This corresponds to many of the notes in Chapter 5. 
+%% RF Losses
+\begin{center}
+    \begin{tabular}{ |p{5cm}|p{5cm}|}
+        \hline
+            \multicolumn{2}{|c|}{RF Losses} \\
+        \hline
+            Component & Loss (dB) \\
+        \hline
+            Waveguide Run & 0.1 - 0.3 \\
+            Waveguide Switch & 0.7 \\
+            Power Divider & 1.6 \\
+            Duplexer & 0.3 - 1.5 \\
+            TR Switch & 0.5 - 1.5 \\
+            Circulator / Isolator & 0.3 - 0.5 \\
+            Reciever Protection & 0.2 - 1.0 \\
+            Preselector & 0.5 - 2.5 \\
+            Directional Coupler & 0.3 - 0.4 \\
+            Rotary Joint & 0.2 - 0.5 \\
+            Mode Adapter & 0.1 \\
+            Waveguide step attenuator & 0.8 \\
+            Feed & 0.2 - 0.5 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\begin{center}
+    \begin{tabular}{ |p{5cm}|p{8cm}|p{3cm}| }
+        \hline
+            \multicolumn{3}{|c|}{Antenna Losses} \\
+        \hline
+            Location & Component & Typical Loss \\
+        \hline
+            Feed System & Feed horn for reflector / lens & 0.1 \\
+             & Feed horn for reflector / lens & 0.1 \\
+             & Waveguide series feed & 0.7 \\
+             & Waveguid parallel feed & 0.4 \\
+             & Stripline series feed & 1.0 \\
+             & Stripline parallel feed & 0.6 \\
+             & Active module at each element & 0.0 \\
+
+            Phase shifter & Nonreciprocal ferrite, or faraday rotator & 0.7 \\
+             & Reciprocal ferrite & 1.0 \\
+             & Diode (3 or 4 bit) & 1.5 \\
+             & Diode (5 or 6 bit) & 2.0 \\
+             & Diode (per bit) & 0.4 \\
+             & Active module at each element & 0.0 \\
+            Array & Mismatch(no electronic scan) & 0.2 \\
+             & Mismatch (election scan 60$^{\circ}$) & 1.7 \\
+            Exterior & Radome & 0.5 - 1.0 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\begin{center}
+    \begin{tabular}{ |p{4cm}|p{3cm}|p{3cm}|p{3cm}|}
+        \hline
+            \multicolumn{4}{|c|}{Transmission RM and Antenna Loss} \\
+        \hline
+            Loss Term & L-Band Radar & S-Band Radar & X-Band Radar \\
+        \hline
+            XMIT RF & 2.2 & 0.9 & 0.4 \\
+            Feed horn & 0.1 & 0.1 & --- \\
+            Phase Shifter & --- & 0.7 & --- \\
+            Mismatch & --- & 0.5 & 0.5\\
+            Scan & --- & 1.9 & 1.9\\
+            Randome & --- &  0.5 & 0.8\\
+            1D Beamshape & 1.24 & --- & --- \\
+            2D Beamshape & --- & 2.48 & --- \\
+            Total & 3.54 dB & 7.08 dB & 6.8 dB\\
+        \hline
+    \end{tabular}
+\end{center}
+
+\begin{center}
+    \begin{tabular}{ |p{4cm}|p{3cm}|p{3cm}|p{3cm}|}
+        \hline
+            \multicolumn{4}{|c|}{Transmit RF, Antenna, and Propogation Loss} \\
+        \hline
+            Loss Term & L-Band Radar & S-Band Radar & X-Band Radar \\
+        \hline
+            Prior Losses & 3.54 & 7.08 & 6.8 \\
+            Propagation & 2.0 & 1.0 & 2.0 \\
+            Total & 5.54 dB & 8.08 dB & 8.8 dB \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\begin{center}
+    \begin{tabular}{ |p{4cm}|p{3cm}|p{3cm}|p{3cm}|}
+        \hline
+            \multicolumn{4}{|c|}{EX: Transmit RF, Antenna, and Propogation Loss} \\
+        \hline
+            Loss Term & L-Band Radar & S-Band Radar & X-Band Radar \\
+        \hline
+            Prior Loss & 5.54 & 8.08 & 8.8\\
+            Antenna Loss & 0.1 & 1.3 & 0.8 \\
+            Duplexer & 0.7 & --- & --- \\
+            Rx Protection & 0.2 & --- & --- \\
+            WG Attenuator& 0.8 & --- & --- \\
+            Rotary Joint & --- & 0.2 & --- \\
+            Mode Adapter & --- & 0.1 & --- \\
+            Circulator & --- & --- & 0.4 \\
+            Preselector & 0.5 & 0.5 & --- \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\begin{center}
+    \begin{tabular}{ |p{8cm}|p{4cm}|}
+        \hline
+            \multicolumn{2}{|c|}{Processor and Dectection Losses} \\
+        \hline
+            Source & Typical Values (dB) \\
+        \hline
+            Matched filter loss & \\
+            Mismatch Loss & 0.5 \\
+            Sidelobe reduction weighting loss & 1.5 \\
+            MTI Loss with staggering waveforms & 0 - 1 \\
+            Doppler filter sidelobe reduction loss & 1-3 \\
+            Range staddle loss & 0.3 - 1.0 \\
+            Doppler straddle loss & 0.3 - 1.0 \\
+            CFAR Loss & 1 - 2.5 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\begin{center}
+    \begin{tabular}{ |p{6cm}|p{5cm}|p{4cm}|}
+        \hline
+            \multicolumn{3}{|c|}{Matched Filter Mismatch Loss} \\
+        \hline
+            Input Signal & Filter & Mismatch Loss (dB) \\
+        \hline
+            Rectangular Pulse & Gaussian & 0.51 \\
+            Rectangular Pulse & 1-Stage Single-Tuned & 0.89 \\
+            Rectangular Pulse & 2-Stage Single-Tuned & 0.56 \\
+            Rectangular Pulse & 3-Stage Single-Tuned & 0.53 \\
+            Rectangular Pulse & 5-Stage Single-Tuned & 0.50 \\
+            Rectangular Pulse & Matched & 0.00 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+% Appendix C
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%$%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Appendix C: Common Units}
+All of these units follow the International System of Units (SI) method of measurement, as it is the most accepted form of representation. 
+
+% Temperature Scales
+\begin{center}
+    \begin{tabular}{ |p{3cm}|p{3cm}|p{3cm}|p{4cm}|  }
+        \hline
+        \multicolumn{4}{|c|}{Temperatures} \\
+        \hline
+            Unit & Name & Freezing Point & Boiling Point \\
+        \hline
+        $^{\circ}$F & Fahrenheit & 32$^{\circ}$ & 212$^{\circ}$ \\
+        $^{\circ}$C & Celsius & 0$^{\circ}$ & 100$^{\circ}$ \\
+        $^{\circ}$K & Kelvin & 237.15$^{\circ}$ & 373.15$^{\circ}$ \\
+        \hline
+    \end{tabular}
+\end{center} 
+
+\textbf{F to C:} C$^{\circ}$ = 5/9 * ($^{\circ}$F - 32) \\
+\textbf{F to K:} K$^{\circ}$ = ($^{\circ}$F - 32) * 5/9 + 273.15\\
+\textbf{C to F:} F$^{\circ}$ = (9/5 * C$^{\circ}$) + 32 \\
+\textbf{C to K:} K$^{\circ}$ = C$^{\circ}$ + 273 \\
+\textbf{K to C:} C$^{\circ}$ = K$^{\circ}$ - 273 \\
+\textbf{K to F:} F$^{\circ}$ = (K$^{\circ}$ - 273.15) * 9/5 + 32 \\
+
+
+% Metric Unit Prefixes
+\begin{center}
+    \begin{tabular}{ |p{3cm}|p{3cm}|p{3cm}|p{4cm}|  }
+        \hline
+        \multicolumn{4}{|c|}{Metric Prefixes} \\
+        \hline
+            Symbol & Name & Standard Form & Raw Value \\
+        \hline
+            P & Peta & $10^{15}$ & 1,000,000,000,000,000 \\
+            T & Tera & $10^{12}$ & 1,000,000,000,000 \\
+            G & Giga & $10^{9}$ & 1,000,000,000 \\
+            M & Mega & $10^{6}$ & 1,000,000 \\
+            k & Kilo & $10^{3}$ & 1,000 \\
+            h & Hecto & $10^{2}$ & 100 \\     
+            d & Deka & $10^{1}$ & 10 \\
+            N/A & Base Units & $10^0$ & 1 \\
+            d & Deci & $10^{-1}$ & 0.1 \\
+            c & Centi & $10^{-2}$ & 0.01 \\
+            m & Milli & $10^{-3}$ & 0.001 \\
+            $\mu$ & Micro & $10^{-6}$ & 0.00001 \\
+            n & Nano & $10^{-9}$ & 0.000000001 \\
+            A & Angstrom & $10^{-10}$ & 0.0000000001 \\
+            p & Pico& $10^{-12}$ & 0.000000000001 \\  
+        \hline
+    \end{tabular}
+\end{center}
+
+% Electrical Units
+\begin{center}
+    \begin{tabular}{ |p{4cm}|p{4cm}|p{4cm}|  }
+        \hline
+        \multicolumn{3}{|c|}{Electrical Units} \\
+        \hline
+            Symbol & Name & Principle\\
+        \hline
+            \textbf{F} & Farad & Capacitance\\
+            \textbf{H} & Henry & Inductance\\
+            \textbf{W} & Watt & Energy Transfter\\
+            \textbf{Wb} & Weber & Magnetic Flux\\
+            $\Omega$ & Ohm & Resistance\\
+            $\Omega^{-1}$ & Seimens (Mho) & Conductance\\
+            V & Voltage & Electrical Difference\\
+
+            
+        \hline
+    \end{tabular}
+\end{center}
+
+% Appendix D
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagebreak
+\section{Appendix D: Definitions and Acronyms}
+\begin{itemize}
+    \item \textbf{AC} - A form of electrical current that periodically reverses direction and changes its magnitude constantly to contrast direct current. The type of current which is most commonly delivered to homes and businesses, and is typically consumed in common appliances. 
+    \item \textbf{AFC} - Automatic Frequency Control. Electronic process meant to prevent drift in radio frequencies within predefined limits. This maintains a local oscillator on a given frequency to obtain constant difference in frequency between the radar echo and oscillator.
+    \item \textbf{ATC} - Air Traffic Control.
+    \item \textbf{Ampacity} - The maximum current in amps that a conductor can carry while meeting the conditions of use without exceeding the temperature maximum.
+    \item \textbf{Amplify} - To increase the strength of a radar signal.
+    \item \textbf{Amps} - An amp or ampere, is the base unit of electric current. The quantity of electricity moved in 1 second at a current of 1 coulomb of charge. 
+    \item \textbf{Attenuation} - The decrease in strength of radar waves caused by absorption, scattering, or reflection through some medium that obstructs the waves path.
+    \item \textbf{Bearing} - The direction of the line of sight from the radar antenna to the point of contact/target.
+    \item \textbf{Blind Sector} - A sector on the radar scope in which return pulses/echos cannot be received due to obstructions near the antenna. 
+    \item \textbf{Clutter} - Unwanted radar echos reflected back to the antenna from environmental affects or objects such as rain, snow, trees, or waves. 
+    \item \textbf{CFAR} - Constant False Alarm Rate.
+    \item \textbf{Conductance} - The ease at which electricity passes through an object. Measured in siemens. Opposite of resistance.
+    \item \textbf{Coulomb} - A unit of electrical charge, or $1 / (1.602176634*10^-19)$ elementary charges. 
+    \item \textbf{Current} - A stream of electrically charged particles such as electrons or ions that move through a conductor or space. It is a measure of the flow of an electric charge through a control volume.
+    \item \textbf{DC} - Electrical Current that only flows in one direction. This current may flow through a conductive material such as a wire, but can also flow through semi-conductors or insulators. 
+    \item \textbf{Echo} - The reflected radar signal sent back to the antenna from some object. 
+    \item \textbf{Farad} - The capacitance or the ability to hold an electrical charge. 
+    \item \textbf{Henry} - Inductance of electricity. If a current as 1 amp of current flowing through a coil, it produces flux linkage of one weber. It also has a inductance of one henry.
+    \item \textbf{Interference} - Unwanted signals or patterns produced on the radarscope by another transmitter or radar operating on the same frequency, or some other outside source. 
+    \item \textbf{Joules} - A unit to define the amount of energy transferred to an object (work is exerted) from another. This is also energy dissipated through heat as a current flows. 
+    \item \textbf{LFM} - Linear Frequency Modulated pulses/waveforms 
+    \item \textbf{Ohms} - The amount of electrical resistance between two points of a conductor when a constant potential difference of one volt is applied to those two points, the conductor produces a current of one amp. 
+    \item \textbf{Power} - The amount of energy transferred in a unit of time. A scalar quantity.
+    \item \textbf{PRF} - Pulse Repetition Frequency.
+    \item \textbf{PRI} - Pulse Repetition Interval.
+    \item \textbf{RADAR} - Radio Detection and Ranging.
+    \item \textbf{RCS} - Radar Cross Section.
+    \item \textbf{Resistance} - A measure of the opposition of flow to a electrical current. Measured in ohms. The opposite of this is conductance.
+    \item \textbf{Siemens} - A unit of conductance, susceptance, and admittance of electricity. Calculated from the reciprocals of resistance, reactance, and impedance, or the reciprocal of one ohm. Also known as mho.
+    \item \textbf{SNR} - Signal to Noise ratio. 
+    \item \textbf{Watts} - Unit of 1 joule per second. Used to measure energy transfer.
+    \item \textbf{Waveform} - The shape of a signal with respect to time. 
+    \item \textbf{Weber} - Unit measuring magnetic flux, or the flux density. 
+    \item \textbf{Voltage} - The difference in electrical potential between two points, or the amount of work need per unit of charge, to move that charge between two points. Typically 1 volt = 1 joule of work, or 1 coulomb of charge. 
+\end{itemize}
+\end{document}
